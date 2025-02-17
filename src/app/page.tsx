@@ -1,101 +1,123 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 
-export default function Home() {
+export default function InicioPage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Sección 1: Título */}
+      <section
+        className="relative w-full text-center h-screen flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/image/fondo.jpg')" }}
+      >
+        {/* Superposición semi-transparente */}
+        <div className="absolute inset-0 bg-black/30 backdrop-blur-lg"></div>
+
+        {/* Contenido */}
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10 p-4 text-white"
+        >
+          <h1 className="text-5xl font-bold drop-shadow-lg">
+            CARRERA DE ADMINISTRACIÓN DE EMPRESAS
+          </h1>
+          <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-md">
+            Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional.
+          </p>
+        </motion.div>
+      </section>
+
+      {/* Separador decorativo */}
+      <div className="w-full h-1 bg-secondary rounded-full"></div>
+
+      {/* Sección 2: Últimas Publicaciones */}
+      <section className="relative max-w-full">
+        <motion.h2
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl font-semibold text-primary text-center mb-6 relative"
+        >
+          Últimas Publicaciones
+          <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
+        </motion.h2>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {[1, 2, 3].map((_, index) => (
+            <motion.div
+              key={index}
+              whileHover={{ scale: 1.05 }}
+              className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50"
+            >
+              <Image src="/images/post.jpg" alt="Publicación" width={400} height={200} className="rounded-lg" />
+              <h3 className="mt-4 font-semibold text-lg">Título de la Publicación</h3>
+              <p className="text-sm text-gray-500">Descripción breve de la publicación.</p>
+            </motion.div>
+          ))}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      </section>
+
+      {/* Separador decorativo */}
+      <div className="w-full h-1 bg-secondary rounded-full"></div>
+
+      {/* Sección 3: Autoridades */}
+      <section className="max-w-full text-center">
+        <motion.h2
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl font-semibold text-primary mb-6 relative"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          Autoridades
+          <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
+        </motion.h2>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {[1, 2, 3].map((_, index) => (
+            <motion.div
+              key={index}
+              whileHover={{ scale: 1.05 }}
+              className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50"
+            >
+              <Image src="/images/autoridad.jpg" alt="Autoridad" width={400} height={200} className="rounded-lg" />
+              <h3 className="mt-4 font-semibold text-lg">Nombre de la Autoridad</h3>
+              <p className="text-sm text-gray-500">Cargo y descripción breve.</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Separador decorativo */}
+      <div className="w-full h-1 bg-secondary rounded-full"></div>
+
+      {/* Sección 4: Ubicación */}
+      <section className="w-full">
+        <motion.h2
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl font-semibold text-primary mb-6 text-center relative"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          Ubicación
+          <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
+        </motion.h2>
+
+        <div className="w-full h-80 overflow-hidden rounded-lg shadow-lg border border-gray-200">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d122372.8636295615!2d-68.31222246520747!3d-16.568855554485644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915ede3378ea9d6d%3A0x26cac4a2caefcb29!2sUniversidad%20P%C3%BAblica%20de%20El%20Alto!5e0!3m2!1ses!2sbo!4v1739746314905!5m2!1ses!2sbo"
+            className="w-full h-full border-0"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+        <br />
+      </section>
+
+    </main>
   );
 }
