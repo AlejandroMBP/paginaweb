@@ -5,10 +5,16 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FaRegBuilding, FaLightbulb, FaTrophy } from 'react-icons/fa'; // Icons for extra visual appeal
 import { useEffect, useState } from 'react';
+import DOMPurify from 'dompurify';
 
 export default function AboutPage() {
     const [loading, setLoading] = useState(true);
     const [vision, setVision] = useState('Cargando...');
+    const [mision, setMision] = useState('Cargando...');
+    const [objetivo, setObjetivo] = useState('Cargando...');
+    const [historia, setHistoria] = useState('Cargando...');
+
+
     useEffect(() => {
         const fetchfilosofia = async () => {
             try {
@@ -19,12 +25,30 @@ export default function AboutPage() {
                     throw new Error(`Error HTTP: ${response.status}`);
                 const result = await response.json();
                 console.log('Respuesta de la filosofia:', result); //eliminar al terminar el desarrollo
-                setVision(
-                    result?.Descripcion?.institucion_vision ||
-                        'No se encontro vision.'
-                );
+
+                // purificar el resultado y asignar a la variable
+                const tempDiv = document.createElement('div');
+                const tempMisDiv = document.createElement('div');
+                const tempObjDiv = document.createElement('div');
+
+                tempDiv.innerHTML = result?.Descripcion?.institucion_vision || 'No se encontró contenido.';
+                setVision(tempDiv.textContent || tempDiv.innerText || 'No se encontró contenido.');
+
+                tempMisDiv.innerHTML = result?.Descripcion?.institucion_mision || 'No se encontró contenido.';
+                setMision(tempMisDiv.textContent || tempMisDiv.innerText || 'No se encontró contenido.');
+
+                tempObjDiv.innerHTML = result?.Descripcion?.institucion_objetivos || 'No se encontró contenido.';
+                setObjetivo(tempObjDiv.textContent || tempObjDiv.innerText || 'No se encontró contenido.');
+
+                const historiaHtml =
+                    result?.Descripcion?.institucion_historia || 'No se encontró historia.';
+
+                setHistoria(DOMPurify.sanitize(historiaHtml));
             } catch (error) {
                 setVision('No se encontro vision');
+                setMision('No se encontro mision');
+                setObjetivo('No se encontro objetivo');
+                setHistoria('No se encontro historia');
             } finally {
                 setLoading(false);
             }
@@ -70,17 +94,17 @@ export default function AboutPage() {
                     {[
                         {
                             title: 'Misión',
-                            text: 'Formar profesionales íntegros en gestión empresarial.',
+                            text: loading ? 'Cargando...' : DOMPurify.sanitize(mision),
                             icon: <FaRegBuilding />,
                         },
                         {
                             title: 'Visión',
-                            text: loading ? 'Cargando...' : vision,
+                            text: loading ? 'Cargando...' : DOMPurify.sanitize(vision),
                             icon: <FaLightbulb />,
                         },
                         {
                             title: 'Objetivos',
-                            text: 'Desarrollar innovación, gestión de recursos y toma de decisiones.',
+                            text: loading ? 'Cargando...' : DOMPurify.sanitize(objetivo),
                             icon: <FaTrophy />,
                         },
                     ].map((item, index) => (
@@ -140,11 +164,10 @@ export default function AboutPage() {
                             Historia
                             <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
                         </h2>
-                        <p className="text-lg text-gray-700 leading-relaxed text-center">
-                            La carrera de Administración de Empresas ha
-                            evolucionado con el tiempo, adaptándose a los
-                            desafíos del entorno global.
-                        </p>
+                        <div
+                            className="text-lg text-gray-700 leading-relaxed text-center"
+                            dangerouslySetInnerHTML={{ __html: historia }}
+                        />
                     </motion.div>
                 </motion.div>
             </section>

@@ -2,8 +2,43 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+type Eventos = {
+    evento_id: number;
+    evento_titulo: string;
+    evento_tipo: string;
+    evento_imagen: string;
+    evento_descripcion: string;
+    evento_fecha: string; // Puedes convertirlo a Date si lo necesitas
+    evento_hora: string;
+    evento_lugar: string;
+};
 
 export default function InicioPage() {
+    const [loading, setLoading] = useState(true);
+    const [eventos, setEventos] = useState<Eventos[]>([]);
+
+    useEffect(() => {
+        const fetchEventos = async () => {
+            try {
+                const response = await fetch(
+                    'https://serviciopagina.upea.bo/api/eventoAll/10'
+                );
+                if (!response.ok)
+                    throw new Error(`Error HTTP: ${response.status}`);
+                const result = await response.json();
+                console.log('Respuesta de la filosofia:', result); //eliminar al terminar el desarrollo
+
+                setEventos(result);
+            } catch (error) {
+                setEventos([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchEventos();
+    }, []);
+
     return (
         <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
 
@@ -47,17 +82,26 @@ export default function InicioPage() {
                 </motion.h2>
 
                 <div className="grid md:grid-cols-3 gap-6">
-                    {[1, 2, 3].map((_, index) => (
+                    {loading ? (<p className="text-center col-span-3">Cargando eventos...</p>) : eventos.length > 0 ? (eventos.map((evento) => (
                         <motion.div
-                            key={index}
+                            key={evento.evento_id}
                             whileHover={{ scale: 1.05 }}
                             className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50"
                         >
-                            <Image src="/images/post.jpg" alt="Publicación" width={400} height={200} className="rounded-lg" />
-                            <h3 className="mt-4 font-semibold text-lg">Título de la Publicación</h3>
-                            <p className="text-sm text-gray-500">Descripción breve de la publicación.</p>
+                            <Image src={`https://serviciopagina.upea.bo/Eventos/${evento.evento_imagen}`}
+                                alt="Publicación"
+                                width={400}
+                                height={200}
+                                className="rounded-lg"
+                                unoptimized
+                            />
+                            <h3 className="mt-4 font-semibold text-lg">{evento.evento_titulo}</h3>
+                            <p className="text-sm text-gray-500">{evento.evento_lugar}</p>
                         </motion.div>
-                    ))}
+                    ))
+                    ) : (
+                        <p className="text-center col-span-3">No hay eventos disponibles.</p>
+                    )}
                 </div>
             </section>
             <br />
