@@ -1,123 +1,256 @@
-"use client";
-
-import Image from "next/image";
-import { motion } from "framer-motion";
-
+'use client';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+type InstitucionData = {
+    Descripcion?: {
+        institucion_nombre?: string;
+        institucion_api_google_map?: string;
+        institucion_direccion?: string;
+        autoridad?: {
+            id_autoridad: number;
+            nombre_autoridad: string;
+            cargo_autoridad: string;
+            foto_autoridad: string;
+        }[];
+    };
+};
+type Publicaciones = {
+    publicaciones_id: number;
+    publicaciones_titulo: string;
+    publicaciones_tipo: string;
+    publicaciones_imagen: string;
+    publicaciones_descripcion: string;
+    publicaciones_fecha: Date;
+    publicaciones_autor: string;
+    publicaciones_documento: string;
+};
 export default function InicioPage() {
-  return (
-    <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
+    const [institucionNombre, setInstitucionNombre] = useState('Cargando...');
+    const [data, setData] = useState<InstitucionData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [mapsUbicacion, setmapsUbicacion] = useState('Cargando...');
+    const [direccion, setDireccion] = useState('Cargando...');
+    const [publicaciones, setPublicaciones] = useState<Publicaciones[]>([]);
 
-      {/* Sección 1: Título */}
-      <section
-        className="relative w-full text-center h-screen flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/image/fondo.jpg')" }}
-      >
-        {/* Superposición semi-transparente */}
-        <div className="absolute inset-0 bg-black/30 backdrop-blur-lg"></div>
+    useEffect(() => {
+        const fetchInstitucion = async () => {
+            try {
+                const response = await fetch(
+                    'https://serviciopagina.upea.bo/api/InstitucionUPEA/10'
+                );
 
-        {/* Contenido */}
-        <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 p-4 text-white"
-        >
-          <h1 className="text-5xl font-bold drop-shadow-lg">
-            CARRERA DE ADMINISTRACIÓN DE EMPRESAS
-          </h1>
-          <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-md">
-            Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional.
-          </p>
-        </motion.div>
-      </section>
+                if (!response.ok)
+                    throw new Error(`Error HTTP: ${response.status}`);
 
-      {/* Separador decorativo */}
-      <div className="w-full h-1 bg-secondary rounded-full"></div>
+                const result = await response.json();
+                console.log('Respuesta de la API1:', result); // Verifica los datos en consola
 
-      {/* Sección 2: Últimas Publicaciones */}
-      <section className="relative max-w-full">
-        <motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-3xl font-semibold text-primary text-center mb-6 relative"
-        >
-          Últimas Publicaciones
-          <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
-        </motion.h2>
+                setData(result); // Guardamos la respuesta completa en data
+                setInstitucionNombre(
+                    result?.Descripcion?.institucion_nombre ||
+                        'Nombre no disponible'
+                );
+                setmapsUbicacion(
+                    result?.Descripcion?.institucion_api_google_map || ''
+                );
+                setDireccion(
+                    result?.Descripcion?.institucion_direccion ||
+                        'Direccion no definida'
+                );
+            } catch (error) {
+                console.error('Error al obtener datos', error);
+                setInstitucionNombre('Carrera no disponible');
+                setmapsUbicacion('https://www.google.com/maps/embed?...');
+                setDireccion('Direccion no definida');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {[1, 2, 3].map((_, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05 }}
-              className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50"
+        // fetch de publicaciones
+        const fetchPublicaciones = async () => {
+            try {
+                const response = await fetch(
+                    'https://serviciopagina.upea.bo/api/publicacionesAll/10'
+                );
+                if (!response.ok)
+                    throw new Error(`Error HTTP: ${response.status}`);
+                const result = await response.json();
+                console.log('Respuesta de la API:', result);
+                setPublicaciones(result);
+            } catch (error) {
+                console.error('Error al obtener publicaciones', error);
+                setPublicaciones([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchInstitucion();
+        fetchPublicaciones();
+    }, []);
+
+    return (
+        <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
+            {/* Sección 1: Título */}
+            <section
+                className="relative w-full text-center h-screen flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: "url('/image/fondo.jpg')" }}
             >
-              <Image src="/images/post.jpg" alt="Publicación" width={400} height={200} className="rounded-lg" />
-              <h3 className="mt-4 font-semibold text-lg">Título de la Publicación</h3>
-              <p className="text-sm text-gray-500">Descripción breve de la publicación.</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+                {/* Superposición semi-transparente */}
+                <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
 
-      {/* Separador decorativo */}
-      <div className="w-full h-1 bg-secondary rounded-full"></div>
+                {/* Contenido */}
+                <motion.div
+                    initial={{ opacity: 0, y: -30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="relative z-10 p-4 text-white"
+                >
+                    <h1 className="font-montserrat text-5xl font-bold drop-shadow-lg">
+                        {loading
+                            ? 'Cargando...'
+                            : institucionNombre.toUpperCase()}
+                    </h1>
+                    <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-md">
+                        Formación académica con enfoque en liderazgo,
+                        emprendimiento y gestión organizacional.
+                    </p>
+                </motion.div>
+            </section>
 
-      {/* Sección 3: Autoridades */}
-      <section className="max-w-full text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-3xl font-semibold text-primary mb-6 relative"
-        >
-          Autoridades
-          <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
-        </motion.h2>
+            {/* Separador decorativo */}
+            <div className="w-full h-1 bg-secondary rounded-full"></div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {[1, 2, 3].map((_, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05 }}
-              className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50"
-            >
-              <Image src="/images/autoridad.jpg" alt="Autoridad" width={400} height={200} className="rounded-lg" />
-              <h3 className="mt-4 font-semibold text-lg">Nombre de la Autoridad</h3>
-              <p className="text-sm text-gray-500">Cargo y descripción breve.</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+            {/* Sección 2: Últimas Publicaciones */}
+            <section className="relative max-w-full">
+                <motion.h2
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="text-3xl font-montserrat font-semibold text-primary text-center mb-6 relative"
+                >
+                    ÚLTIMAS PUBLICACIONES
+                    <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
+                </motion.h2>
 
-      {/* Separador decorativo */}
-      <div className="w-full h-1 bg-secondary rounded-full"></div>
+                <div className="grid md:grid-cols-3 gap-6 min-h-[150px] justify-center">
+                    {publicaciones.length > 0 ? (
+                        publicaciones.map((post) => (
+                            <motion.div
+                                key={post.publicaciones_id}
+                                whileHover={{ scale: 1.05 }}
+                                className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50"
+                            >
+                                <Image
+                                    src={`https://serviciopagina.upea.bo/Publicaciones/${post.publicaciones_imagen}`}
+                                    alt={post.publicaciones_titulo}
+                                    width={400}
+                                    height={200}
+                                    className="rounded-lg"
+                                    unoptimized
+                                />
+                                <h3 className="mt-4 font-semibold text-lg">
+                                    {post.publicaciones_titulo}
+                                </h3>
+                                <p
+                                    className="text-sm text-gray-500"
+                                    dangerouslySetInnerHTML={{
+                                        __html: post.publicaciones_descripcion,
+                                    }}
+                                />
+                            </motion.div>
+                        ))
+                    ) : (
+                        <div className="flex justify-center items-center w-full col-span-3">
+                            <p className="text-center text-gray-500 text-lg font-semibold mt-6">
+                                Cargando publicaciones...
+                            </p>
+                        </div>
+                    )}
+                </div>
+            </section>
 
-      {/* Sección 4: Ubicación */}
-      <section className="w-full">
-        <motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-3xl font-semibold text-primary mb-6 text-center relative"
-        >
-          Ubicación
-          <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
-        </motion.h2>
+            {/* Separador decorativo */}
+            <div className="w-full h-1 bg-secondary rounded-full"></div>
 
-        <div className="w-full h-80 overflow-hidden rounded-lg shadow-lg border border-gray-200">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d122372.8636295615!2d-68.31222246520747!3d-16.568855554485644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915ede3378ea9d6d%3A0x26cac4a2caefcb29!2sUniversidad%20P%C3%BAblica%20de%20El%20Alto!5e0!3m2!1ses!2sbo!4v1739746314905!5m2!1ses!2sbo"
-            className="w-full h-full border-0"
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
-        <br />
-      </section>
+            {/* Sección 3: Autoridades */}
+            {/* Sección 3: Autoridades */}
+            <section className="max-w-full text-center">
+                <motion.h2
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="text-3xl font-semibold text-primary mb-6 relative"
+                >
+                    AUTORIDADES
+                    <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
+                </motion.h2>
 
-    </main>
-  );
+                {data && data.Descripcion && data.Descripcion.autoridad ? (
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {data.Descripcion.autoridad.map((autoridad) => (
+                            <motion.div
+                                key={autoridad.id_autoridad}
+                                whileHover={{ scale: 1.05 }}
+                                className="p-4 border rounded-lg shadow-md"
+                            >
+                                <img
+                                    src={`https://serviciopagina.upea.bo/InstitucionUpea/Autoridad/${autoridad.foto_autoridad}`}
+                                    alt={autoridad.nombre_autoridad}
+                                    className="w-32 h-32 rounded-full mx-auto"
+                                />
+                                <h3 className="text-lg font-bold text-center mt-2">
+                                    {autoridad.nombre_autoridad}
+                                </h3>
+                                <p className="text-sm text-center">
+                                    {autoridad.cargo_autoridad}
+                                </p>
+                            </motion.div>
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-center text-gray-500 text-lg font-semibold mt-6">
+                        Cargando autoridad...
+                    </p>
+                )}
+            </section>
+
+            {/* Separador decorativo */}
+            <div className="w-full h-1 bg-secondary rounded-full"></div>
+
+            {/* Sección 4: Ubicación */}
+            <section className="w-full">
+                <motion.h2
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="text-3xl font-semibold text-primary mb-6 text-center relative"
+                >
+                    UBICACIÓN
+                    <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
+                </motion.h2>
+
+                <div className="w-full h-80 overflow-hidden rounded-lg shadow-lg border border-gray-200">
+                    {loading || !mapsUbicacion ? (
+                        <p className="text-center text-gray-500 text-lg font-semibold mt-6">
+                            Cargando mapa...
+                        </p>
+                    ) : (
+                        <iframe
+                            src={mapsUbicacion}
+                            className="w-full h-full border-0"
+                            allowFullScreen
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                    )}
+                </div>
+                <div className="text-center">
+                    <strong>{loading ? 'Cargando...' : direccion}</strong>
+                </div>
+                <br />
+            </section>
+        </main>
+    );
 }

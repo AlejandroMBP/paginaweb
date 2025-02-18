@@ -1,13 +1,38 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { FaRegBuilding, FaLightbulb, FaTrophy } from "react-icons/fa"; // Icons for extra visual appeal
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { FaRegBuilding, FaLightbulb, FaTrophy } from 'react-icons/fa'; // Icons for extra visual appeal
+import { useEffect, useState } from 'react';
 
 export default function AboutPage() {
+    const [loading, setLoading] = useState(true);
+    const [vision, setVision] = useState('Cargando...');
+    useEffect(() => {
+        const fetchfilosofia = async () => {
+            try {
+                const response = await fetch(
+                    'https://serviciopagina.upea.bo/api/InstitucionUPEA/10'
+                );
+                if (!response.ok)
+                    throw new Error(`Error HTTP: ${response.status}`);
+                const result = await response.json();
+                console.log('Respuesta de la filosofia:', result); //eliminar al terminar el desarrollo
+                setVision(
+                    result?.Descripcion?.institucion_vision ||
+                        'No se encontro vision.'
+                );
+            } catch (error) {
+                setVision('No se encontro vision');
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchfilosofia();
+    }, []);
     return (
-        <main className="flex flex-col items-center min-h-screen gap-16 px-6 sm:px-12 font-[family-name:var(--font-geist-sans)] bg-gray-100">
+        <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
             {/* Sección 1: Introducción */}
             <section
                 className="relative w-full h-screen flex items-center justify-center text-center bg-cover bg-center bg-no-repeat"
@@ -24,7 +49,8 @@ export default function AboutPage() {
                         Acerca de Nosotros
                     </h1>
                     <p className="mt-4 text-2xl text-white max-w-3xl mx-auto drop-shadow-md">
-                        Cultivamos talento para transformar el horizonte de Bolivia.
+                        Cultivamos talento para transformar el horizonte de
+                        Bolivia.
                     </p>
                 </motion.div>
             </section>
@@ -42,17 +68,33 @@ export default function AboutPage() {
                 </motion.h2>
                 <div className="grid md:grid-cols-3 gap-12">
                     {[
-                        { title: "Misión", text: "Formar profesionales íntegros en gestión empresarial.", icon: <FaRegBuilding /> },
-                        { title: "Visión", text: "Ser referentes en la formación de emprendedores y líderes.", icon: <FaLightbulb /> },
-                        { title: "Objetivos", text: "Desarrollar innovación, gestión de recursos y toma de decisiones.", icon: <FaTrophy /> }
+                        {
+                            title: 'Misión',
+                            text: 'Formar profesionales íntegros en gestión empresarial.',
+                            icon: <FaRegBuilding />,
+                        },
+                        {
+                            title: 'Visión',
+                            text: loading ? 'Cargando...' : vision,
+                            icon: <FaLightbulb />,
+                        },
+                        {
+                            title: 'Objetivos',
+                            text: 'Desarrollar innovación, gestión de recursos y toma de decisiones.',
+                            icon: <FaTrophy />,
+                        },
                     ].map((item, index) => (
                         <motion.div
                             key={index}
                             whileHover={{ scale: 1.05 }}
                             className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200 hover:shadow-2xl transform transition-all duration-300"
                         >
-                            <div className="text-3xl text-primary mb-4">{item.icon}</div>
-                            <h3 className="text-2xl font-semibold text-primary mb-4">{item.title}</h3>
+                            <div className="text-3xl text-primary mb-4">
+                                {item.icon}
+                            </div>
+                            <h3 className="text-2xl font-semibold text-primary mb-4">
+                                {item.title}
+                            </h3>
                             <p className="text-gray-700 text-lg">{item.text}</p>
                         </motion.div>
                     ))}
@@ -99,7 +141,9 @@ export default function AboutPage() {
                             <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
                         </h2>
                         <p className="text-lg text-gray-700 leading-relaxed text-center">
-                            La carrera de Administración de Empresas ha evolucionado con el tiempo, adaptándose a los desafíos del entorno global.
+                            La carrera de Administración de Empresas ha
+                            evolucionado con el tiempo, adaptándose a los
+                            desafíos del entorno global.
                         </p>
                     </motion.div>
                 </motion.div>
