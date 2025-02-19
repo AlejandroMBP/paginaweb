@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { FaRegBuilding, FaLightbulb, FaTrophy } from 'react-icons/fa'; // Icons for extra visual appeal
+import { FaRegBuilding, FaLightbulb, FaTrophy } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
 
@@ -22,9 +22,7 @@ export default function AboutPage() {
                 if (!response.ok)
                     throw new Error(`Error HTTP: ${response.status}`);
                 const result = await response.json();
-                console.log('Respuesta de la filosofia:', result); //eliminar al terminar el desarrollo
 
-                // purificar el resultado y asignar a la variable
                 const tempDiv = document.createElement('div');
                 const tempMisDiv = document.createElement('div');
                 const tempObjDiv = document.createElement('div');
@@ -34,8 +32,8 @@ export default function AboutPage() {
                     'No se encontró contenido de vision.';
                 setVision(
                     tempDiv.textContent ||
-                        tempDiv.innerText ||
-                        'No se encontró contenido de vision.'
+                    tempDiv.innerText ||
+                    'No se encontró contenido de vision.'
                 );
 
                 tempMisDiv.innerHTML =
@@ -43,8 +41,8 @@ export default function AboutPage() {
                     'No se encontró contenido.';
                 setMision(
                     tempMisDiv.textContent ||
-                        tempMisDiv.innerText ||
-                        'No se encontró contenido.'
+                    tempMisDiv.innerText ||
+                    'No se encontró contenido.'
                 );
 
                 tempObjDiv.innerHTML =
@@ -52,14 +50,13 @@ export default function AboutPage() {
                     'No se encontró contenido.';
                 setObjetivo(
                     tempObjDiv.textContent ||
-                        tempObjDiv.innerText ||
-                        'No se encontró contenido.'
+                    tempObjDiv.innerText ||
+                    'No se encontró contenido.'
                 );
 
                 const historiaHtml =
                     result?.Descripcion?.institucion_historia ||
                     'No se encontró historia.';
-
                 setHistoria(DOMPurify.sanitize(historiaHtml));
             } catch (error) {
                 setVision('No se encontro vision');
@@ -72,13 +69,11 @@ export default function AboutPage() {
         };
         fetchAcercade();
     }, []);
+
     return (
         <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
             {/* Sección 1: Introducción */}
-            <section
-                className="relative w-full h-screen flex items-center justify-center text-center bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: "url('/image/fondo.jpg')" }}
-            >
+            <section className="relative w-full h-screen flex items-center justify-center text-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/image/fondo.jpg')" }}>
                 <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
@@ -86,12 +81,9 @@ export default function AboutPage() {
                     transition={{ duration: 0.8 }}
                     className="relative z-10 p-6"
                 >
-                    <h1 className="text-6xl font-bold text-white drop-shadow-lg">
-                        Acerca de Nosotros
-                    </h1>
+                    <h1 className="text-6xl font-bold text-white drop-shadow-lg">Acerca de Nosotros</h1>
                     <p className="mt-4 text-2xl text-white max-w-3xl mx-auto drop-shadow-md">
-                        Cultivamos talento para transformar el horizonte de
-                        Bolivia.
+                        Cultivamos talento para transformar el horizonte de Bolivia.
                     </p>
                 </motion.div>
             </section>
@@ -111,23 +103,17 @@ export default function AboutPage() {
                     {[
                         {
                             title: 'Misión',
-                            text: loading
-                                ? 'Cargando...'
-                                : DOMPurify.sanitize(mision),
+                            text: loading ? 'Cargando...' : DOMPurify.sanitize(mision),
                             icon: <FaRegBuilding />,
                         },
                         {
                             title: 'Visión',
-                            text: loading
-                                ? 'Cargando...'
-                                : DOMPurify.sanitize(vision),
+                            text: loading ? 'Cargando...' : DOMPurify.sanitize(vision),
                             icon: <FaLightbulb />,
                         },
                         {
                             title: 'Objetivos',
-                            text: loading
-                                ? 'Cargando...'
-                                : DOMPurify.sanitize(objetivo),
+                            text: loading ? 'Cargando...' : DOMPurify.sanitize(objetivo),
                             icon: <FaTrophy />,
                         },
                     ].map((item, index) => (
@@ -139,9 +125,7 @@ export default function AboutPage() {
                             <div className="text-3xl text-primary mb-4">
                                 {item.icon}
                             </div>
-                            <h3 className="text-2xl font-semibold text-primary mb-4">
-                                {item.title}
-                            </h3>
+                            <h3 className="text-2xl font-semibold text-primary mb-4">{item.title}</h3>
                             <p className="text-gray-700 text-lg">{item.text}</p>
                         </motion.div>
                     ))}
@@ -181,7 +165,7 @@ export default function AboutPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="w-full md:w-1/2 bg-white shadow-xl rounded-2xl p-10 border border-gray-200 hover:shadow-2xl transition-all flex flex-col justify-center"
+                        className="w-full md:w-1/2 bg-gradient-to-br from-blue-100 to-blue-300 p-10 border border-gray-200 hover:shadow-2xl transition-all flex flex-col justify-center rounded-2xl"
                     >
                         <h2 className="text-3xl font-semibold text-primary text-center mb-6">
                             Historia

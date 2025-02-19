@@ -112,9 +112,12 @@ export default function InicioPage() {
                                 <h3 className="mt-4 font-semibold text-lg">
                                     {convocatoria.con_titulo}
                                 </h3>
-                                <p className="text-sm text-gray-500">
-                                    {convocatoria.con_descripcion}
-                                </p>
+                                <p className="text-sm text-gray-500"
+                                    dangerouslySetInnerHTML={{
+                                        __html: convocatoria.con_descripcion,
+                                    }}
+                                />
+
                             </motion.div>
                         ))
                     ) : (
