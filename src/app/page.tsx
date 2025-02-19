@@ -1,7 +1,9 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+
 type InstitucionData = {
     Descripcion?: {
         institucion_nombre?: string;
@@ -52,7 +54,8 @@ export default function InicioPage() {
                         'Nombre no disponible'
                 );
                 setmapsUbicacion(
-                    result?.Descripcion?.institucion_api_google_map || ''
+                    result?.Descripcion?.institucion_api_google_map ||
+                        'https://www.google.com/maps/embed?...'
                 );
                 setDireccion(
                     result?.Descripcion?.institucion_direccion ||
@@ -174,7 +177,6 @@ export default function InicioPage() {
             {/* Separador decorativo */}
             <div className="w-full h-1 bg-secondary rounded-full"></div>
 
-            {/* Sección 3: Autoridades */}
             {/* Sección 3: Autoridades */}
             <section className="max-w-full text-center">
                 <motion.h2

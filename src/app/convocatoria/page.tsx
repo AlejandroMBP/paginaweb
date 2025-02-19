@@ -1,12 +1,54 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { motion } from "framer-motion";
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+type Convocatoria = {
+    idconvocatorias: number;
+    con_foto_portada: string;
+    con_titulo: string;
+    con_descripcion: string;
+    con_estado: string;
+    con_fecha_inicio: string; // Considera usar Date si quieres trabajar con objetos de fecha
+    con_fecha_fin: string; // Igualmente, puedes usar Date aquí
+    tipo_conv_comun: {
+        idtipo_conv_comun: number;
+        tipo_conv_comun_titulo: string;
+        tipo_conv_comun_estado: string;
+    };
+};
 
 export default function InicioPage() {
+    const [loading, setLoading] = useState(true);
+    const [convocatorias, setConvocatorias] = useState<Convocatoria[]>([]);
+    useEffect(() => {
+        const fetchConvocatoria = async () => {
+            try {
+                const response = await fetch(
+                    'https://serviciopagina.upea.bo/api/convocatoriasAll/20'
+                );
+
+                if (!response.ok)
+                    throw new Error(`Error HTTP: ${response.status}`);
+
+                const result = await response.json();
+                console.log('Respuesta de la API1:', result); // Verifica los datos en consola
+
+                setConvocatorias(result); // Guardamos la respuesta completa en data
+            } catch (error) {
+                console.error('Error al obtener datos', error);
+                setConvocatorias([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        // fetch de publicaciones
+
+        fetchConvocatoria();
+    }, []);
     return (
         <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
-
             {/* Sección 1: Título */}
             <section
                 className="relative w-full text-center h-screen flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat"
@@ -26,7 +68,8 @@ export default function InicioPage() {
                         CONVOCATORIAS
                     </h2>
                     <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-md">
-                        Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional.
+                        Formación académica con enfoque en liderazgo,
+                        emprendimiento y gestión organizacional.
                     </p>
                 </motion.div>
             </section>
@@ -47,17 +90,38 @@ export default function InicioPage() {
                 </motion.h2>
 
                 <div className="grid md:grid-cols-3 gap-6">
-                    {[1, 2, 3].map((_, index) => (
-                        <motion.div
-                            key={index}
-                            whileHover={{ scale: 1.05 }}
-                            className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50"
-                        >
-                            <Image src="/images/post.jpg" alt="Publicación" width={400} height={200} className="rounded-lg" />
-                            <h3 className="mt-4 font-semibold text-lg">Título de la Publicación</h3>
-                            <p className="text-sm text-gray-500">Descripción breve de la publicación.</p>
-                        </motion.div>
-                    ))}
+                    {loading ? (
+                        <p className="text-center col-span-3">
+                            Cargando gaceta...
+                        </p>
+                    ) : convocatorias.length > 0 ? (
+                        convocatorias.map((convocatoria) => (
+                            <motion.div
+                                key={convocatoria.idconvocatorias}
+                                whileHover={{ scale: 1.05 }}
+                                className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50"
+                            >
+                                <Image
+                                    src={`https://serviciopagina.upea.bo/Convocatorias/${convocatoria.con_foto_portada}`}
+                                    alt="Publicación"
+                                    width={400}
+                                    height={200}
+                                    className="rounded-lg"
+                                    unoptimized
+                                />
+                                <h3 className="mt-4 font-semibold text-lg">
+                                    {convocatoria.con_titulo}
+                                </h3>
+                                <p className="text-sm text-gray-500">
+                                    {convocatoria.con_descripcion}
+                                </p>
+                            </motion.div>
+                        ))
+                    ) : (
+                        <p className="text-center col-span-3">
+                            No hay gaceta no disponible disponibles.
+                        </p>
+                    )}
                 </div>
             </section>
             <br />

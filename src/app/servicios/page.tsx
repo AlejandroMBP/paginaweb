@@ -1,12 +1,14 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { motion } from "framer-motion";
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 export default function InicioPage() {
+    const [loading, setLoading] = useState(true);
+    const [vision, setVision] = useState('Cargando...');
     return (
         <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
-
             {/* Sección 1: Título */}
             <section
                 className="relative w-full text-center h-screen flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat"
@@ -26,7 +28,8 @@ export default function InicioPage() {
                         SERVICIOS
                     </h2>
                     <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-md">
-                        Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional.
+                        Formación académica con enfoque en liderazgo,
+                        emprendimiento y gestión organizacional.
                     </p>
                 </motion.div>
             </section>
@@ -53,9 +56,19 @@ export default function InicioPage() {
                             whileHover={{ scale: 1.05 }}
                             className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50"
                         >
-                            <Image src="/images/post.jpg" alt="Publicación" width={400} height={200} className="rounded-lg" />
-                            <h3 className="mt-4 font-semibold text-lg">Título de la Publicación</h3>
-                            <p className="text-sm text-gray-500">Descripción breve de la publicación.</p>
+                            <Image
+                                src="/images/post.jpg"
+                                alt="Publicación"
+                                width={400}
+                                height={200}
+                                className="rounded-lg"
+                            />
+                            <h3 className="mt-4 font-semibold text-lg">
+                                Título de la Publicación
+                            </h3>
+                            <p className="text-sm text-gray-500">
+                                Descripción breve de la publicación.
+                            </p>
                         </motion.div>
                     ))}
                 </div>

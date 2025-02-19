@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FaRegBuilding, FaLightbulb, FaTrophy } from 'react-icons/fa'; // Icons for extra visual appeal
@@ -14,9 +13,8 @@ export default function AboutPage() {
     const [objetivo, setObjetivo] = useState('Cargando...');
     const [historia, setHistoria] = useState('Cargando...');
 
-
     useEffect(() => {
-        const fetchfilosofia = async () => {
+        const fetchAcercade = async () => {
             try {
                 const response = await fetch(
                     'https://serviciopagina.upea.bo/api/InstitucionUPEA/10'
@@ -31,17 +29,36 @@ export default function AboutPage() {
                 const tempMisDiv = document.createElement('div');
                 const tempObjDiv = document.createElement('div');
 
-                tempDiv.innerHTML = result?.Descripcion?.institucion_vision || 'No se encontró contenido.';
-                setVision(tempDiv.textContent || tempDiv.innerText || 'No se encontró contenido.');
+                tempDiv.innerHTML =
+                    result?.Descripcion?.institucion_vision ||
+                    'No se encontró contenido de vision.';
+                setVision(
+                    tempDiv.textContent ||
+                        tempDiv.innerText ||
+                        'No se encontró contenido de vision.'
+                );
 
-                tempMisDiv.innerHTML = result?.Descripcion?.institucion_mision || 'No se encontró contenido.';
-                setMision(tempMisDiv.textContent || tempMisDiv.innerText || 'No se encontró contenido.');
+                tempMisDiv.innerHTML =
+                    result?.Descripcion?.institucion_mision ||
+                    'No se encontró contenido.';
+                setMision(
+                    tempMisDiv.textContent ||
+                        tempMisDiv.innerText ||
+                        'No se encontró contenido.'
+                );
 
-                tempObjDiv.innerHTML = result?.Descripcion?.institucion_objetivos || 'No se encontró contenido.';
-                setObjetivo(tempObjDiv.textContent || tempObjDiv.innerText || 'No se encontró contenido.');
+                tempObjDiv.innerHTML =
+                    result?.Descripcion?.institucion_objetivos ||
+                    'No se encontró contenido.';
+                setObjetivo(
+                    tempObjDiv.textContent ||
+                        tempObjDiv.innerText ||
+                        'No se encontró contenido.'
+                );
 
                 const historiaHtml =
-                    result?.Descripcion?.institucion_historia || 'No se encontró historia.';
+                    result?.Descripcion?.institucion_historia ||
+                    'No se encontró historia.';
 
                 setHistoria(DOMPurify.sanitize(historiaHtml));
             } catch (error) {
@@ -53,7 +70,7 @@ export default function AboutPage() {
                 setLoading(false);
             }
         };
-        fetchfilosofia();
+        fetchAcercade();
     }, []);
     return (
         <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
@@ -94,17 +111,23 @@ export default function AboutPage() {
                     {[
                         {
                             title: 'Misión',
-                            text: loading ? 'Cargando...' : DOMPurify.sanitize(mision),
+                            text: loading
+                                ? 'Cargando...'
+                                : DOMPurify.sanitize(mision),
                             icon: <FaRegBuilding />,
                         },
                         {
                             title: 'Visión',
-                            text: loading ? 'Cargando...' : DOMPurify.sanitize(vision),
+                            text: loading
+                                ? 'Cargando...'
+                                : DOMPurify.sanitize(vision),
                             icon: <FaLightbulb />,
                         },
                         {
                             title: 'Objetivos',
-                            text: loading ? 'Cargando...' : DOMPurify.sanitize(objetivo),
+                            text: loading
+                                ? 'Cargando...'
+                                : DOMPurify.sanitize(objetivo),
                             icon: <FaTrophy />,
                         },
                     ].map((item, index) => (
