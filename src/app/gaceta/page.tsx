@@ -68,7 +68,7 @@ export default function InicioPage() {
             </section>
 
             {/* Separador decorativo */}
-            <div className="w-full h-1 bg-secondary rounded-full"></div>
+            <div className="w-full h-1 bg-primary rounded-full"></div>
 
             {/* Sección 2: Últimas Publicaciones */}
             <section className="relative max-w-full">

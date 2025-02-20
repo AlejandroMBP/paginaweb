@@ -14,20 +14,20 @@
         --foreground: 240, 5%, 10%;
         /* Texto oscuro */
 
-        --primary: 220, 60%, 30%;
-        /* Azul Marino */
+        --primary: 0, 81%, 38%; /* C20317 */
+        /* Color primario ajustado */
         --primary-foreground: 0, 0%, 100%;
-        /* Texto blanco sobre azul */
+        /* Texto blanco sobre el color primario */
 
-        --secondary: 45, 95%, 55%;
-        /* Dorado */
+        --secondary: 215, 100%, 50%; /* 0511F2 */
+        /* Color secundario ajustado */
         --secondary-foreground: 0, 0%, 10%;
-        /* Texto oscuro sobre dorado */
+        /* Texto oscuro sobre el color secundario */
 
-        --accent: 180, 70%, 40%;
-        /* Verde Azulado */
+        --accent: 200, 100%, 60%; /* 277FFE */
+        /* Color terciario ajustado */
         --accent-foreground: 0, 0%, 100%;
-        /* Texto blanco sobre verde */
+        /* Texto blanco sobre el color terciario */
 
         --muted: 220, 14%, 75%;
         /* Gris */

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-
+import Modal from '@/components/ModalInicio';
 type InstitucionData = {
     Descripcion?: {
         institucion_nombre?: string;
@@ -34,6 +34,9 @@ export default function InicioPage() {
     const [mapsUbicacion, setmapsUbicacion] = useState('Cargando...');
     const [direccion, setDireccion] = useState('Cargando...');
     const [publicaciones, setPublicaciones] = useState<Publicaciones[]>([]);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedPublication, setSelectedPublication] =
+        useState<Publicaciones | null>(null);
 
     useEffect(() => {
         const fetchInstitucion = async () => {
@@ -92,7 +95,17 @@ export default function InicioPage() {
         fetchInstitucion();
         fetchPublicaciones();
     }, []);
+    // Función para abrir el modal
+    const openModal = (publication: Publicaciones) => {
+        setSelectedPublication(publication);
+        setModalOpen(true);
+    };
 
+    // Función para cerrar el modal
+    const handleClose = () => {
+        setModalOpen(false);
+        setSelectedPublication(null);
+    };
     return (
         <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
             {/* Sección 1: Título */}
@@ -121,10 +134,8 @@ export default function InicioPage() {
                     </p>
                 </motion.div>
             </section>
-
             {/* Separador decorativo */}
-            <div className="w-full h-1 bg-secondary rounded-full"></div>
-
+            <div className="w-full h-1 bg-primary rounded-full"></div>
             {/* Sección 2: Últimas Publicaciones */}
             <section className="relative max-w-full">
                 <motion.h2
@@ -143,7 +154,8 @@ export default function InicioPage() {
                             <motion.div
                                 key={post.publicaciones_id}
                                 whileHover={{ scale: 1.05 }}
-                                className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50"
+                                onClick={() => openModal(post)}
+                                className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer"
                             >
                                 <Image
                                     src={`https://serviciopagina.upea.bo/Publicaciones/${post.publicaciones_imagen}`}
@@ -174,16 +186,43 @@ export default function InicioPage() {
                 </div>
             </section>
 
+            {/* Modal para Publicaciones */}
+            {modalOpen && selectedPublication && (
+                <Modal
+                    onClose={handleClose}
+                    imageSrc={`https://serviciopagina.upea.bo/Publicaciones/${selectedPublication.publicaciones_imagen}`}
+                    title={selectedPublication.publicaciones_titulo}
+                >
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.3 }}
+                        className="p-6 bg-white rounded-lg shadow-lg"
+                    >
+                        <h2 className="text-2xl font-bold mb-4">
+                            {selectedPublication.publicaciones_titulo}
+                        </h2>
+                        <Image
+                            src={`https://serviciopagina.upea.bo/Publicaciones/${selectedPublication.publicaciones_imagen}`}
+                            alt={selectedPublication.publicaciones_titulo}
+                            width={500}
+                            height={300}
+                            className="rounded-lg"
+                            unoptimized
+                        />
+                    </motion.div>
+                </Modal>
+            )}
             {/* Separador decorativo */}
-            <div className="w-full h-1 bg-secondary rounded-full"></div>
-
+            <div className="w-full h-1 bg-primary rounded-full"></div>
             {/* Sección 3: Autoridades */}
-            <section className="max-w-full text-center">
+            <section className="relative max-w-full">
                 <motion.h2
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-3xl font-semibold text-primary mb-6 relative"
+                    className="text-3xl font-montserrat font-semibold text-primary text-center mb-6 relative"
                 >
                     AUTORIDADES
                     <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
@@ -195,17 +234,18 @@ export default function InicioPage() {
                             <motion.div
                                 key={autoridad.id_autoridad}
                                 whileHover={{ scale: 1.05 }}
-                                className="p-4 border rounded-lg shadow-md"
+                                transition={{ duration: 0.2 }}
+                                className="p-4 border rounded-lg shadow-lg transform hover:shadow-xl transition-shadow duration-300 bg-white"
                             >
                                 <img
                                     src={`https://serviciopagina.upea.bo/InstitucionUpea/Autoridad/${autoridad.foto_autoridad}`}
                                     alt={autoridad.nombre_autoridad}
-                                    className="w-32 h-32 rounded-full mx-auto"
+                                    className="w-32 h-32 rounded-full border-4 border-primary mx-auto shadow-md"
                                 />
-                                <h3 className="text-lg font-bold text-center mt-2">
+                                <h3 className="text-lg font-bold text-center mt-4 text-primary">
                                     {autoridad.nombre_autoridad}
                                 </h3>
-                                <p className="text-sm text-center">
+                                <p className="text-sm text-center text-gray-600">
                                     {autoridad.cargo_autoridad}
                                 </p>
                             </motion.div>
@@ -219,8 +259,7 @@ export default function InicioPage() {
             </section>
 
             {/* Separador decorativo */}
-            <div className="w-full h-1 bg-secondary rounded-full"></div>
-
+            <div className="w-full h-1 bg-primary rounded-full"></div>
             {/* Sección 4: Ubicación */}
             <section className="w-full">
                 <motion.h2
@@ -248,7 +287,7 @@ export default function InicioPage() {
                         ></iframe>
                     )}
                 </div>
-                <div className="text-center">
+                <div className="text-center text-primary">
                     <strong>{loading ? 'Cargando...' : direccion}</strong>
                 </div>
                 <br />

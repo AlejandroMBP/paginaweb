@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 type OfertasAcademicas = {
     ofertas_id: number;
@@ -19,7 +19,9 @@ type OfertasAcademicas = {
 };
 export default function InicioPage() {
     const [loading, setLoading] = useState(true);
-    const [ofertasAcademicas, setOfertasAcademicas] = useState<OfertasAcademicas[]>([]);
+    const [ofertasAcademicas, setOfertasAcademicas] = useState<
+        OfertasAcademicas[]
+    >([]);
 
     useEffect(() => {
         const fetchOfertas = async () => {
@@ -44,7 +46,6 @@ export default function InicioPage() {
 
     return (
         <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
-
             {/* Sección 1: Título */}
             <section
                 className="relative w-full text-center h-screen flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat"
@@ -64,13 +65,14 @@ export default function InicioPage() {
                         OFERTAS ACADEMICAS
                     </h2>
                     <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-md">
-                        Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional.
+                        Formación académica con enfoque en liderazgo,
+                        emprendimiento y gestión organizacional.
                     </p>
                 </motion.div>
             </section>
 
             {/* Separador decorativo */}
-            <div className="w-full h-1 bg-secondary rounded-full"></div>
+            <div className="w-full h-1 bg-primary rounded-full"></div>
 
             {/* Sección 2: Últimas Publicaciones */}
             <section className="relative max-w-full">
@@ -86,9 +88,13 @@ export default function InicioPage() {
 
                 <div className="grid md:grid-cols-3 gap-6">
                     {loading ? (
-                        <p className="text-center col-span-3">Cargando ofertas...</p>
+                        <p className="text-center col-span-3">
+                            Cargando ofertas...
+                        </p>
                     ) : ofertasAcademicas.length === 0 ? (
-                        <p className="text-center col-span-3">No hay ofertas disponibles.</p>
+                        <p className="text-center col-span-3">
+                            No hay ofertas disponibles.
+                        </p>
                     ) : (
                         ofertasAcademicas.map((oferta) => (
                             <motion.div
@@ -104,10 +110,14 @@ export default function InicioPage() {
                                     className="rounded-lg w-full h-48 object-cover"
                                     unoptimized
                                 />
-                                <h3 className="mt-4 font-semibold text-lg">{oferta.ofertas_titulo}</h3>
+                                <h3 className="mt-4 font-semibold text-lg">
+                                    {oferta.ofertas_titulo}
+                                </h3>
                                 <p
                                     className="text-sm text-gray-500"
-                                    dangerouslySetInnerHTML={{ __html: oferta.ofertas_descripcion }}
+                                    dangerouslySetInnerHTML={{
+                                        __html: oferta.ofertas_descripcion,
+                                    }}
                                 ></p>
                             </motion.div>
                         ))

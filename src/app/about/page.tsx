@@ -2,7 +2,12 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { FaRegBuilding, FaLightbulb, FaTrophy } from 'react-icons/fa';
+import {
+    FaRegBuilding,
+    FaLightbulb,
+    FaTrophy,
+    FaBookOpen,
+} from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
 
@@ -32,8 +37,8 @@ export default function AboutPage() {
                     'No se encontró contenido de vision.';
                 setVision(
                     tempDiv.textContent ||
-                    tempDiv.innerText ||
-                    'No se encontró contenido de vision.'
+                        tempDiv.innerText ||
+                        'No se encontró contenido de vision.'
                 );
 
                 tempMisDiv.innerHTML =
@@ -41,8 +46,8 @@ export default function AboutPage() {
                     'No se encontró contenido.';
                 setMision(
                     tempMisDiv.textContent ||
-                    tempMisDiv.innerText ||
-                    'No se encontró contenido.'
+                        tempMisDiv.innerText ||
+                        'No se encontró contenido.'
                 );
 
                 tempObjDiv.innerHTML =
@@ -50,14 +55,14 @@ export default function AboutPage() {
                     'No se encontró contenido.';
                 setObjetivo(
                     tempObjDiv.textContent ||
-                    tempObjDiv.innerText ||
-                    'No se encontró contenido.'
+                        tempObjDiv.innerText ||
+                        'No se encontró contenido.'
                 );
 
-                const historiaHtml =
+                setHistoria(
                     result?.Descripcion?.institucion_historia ||
-                    'No se encontró historia.';
-                setHistoria(DOMPurify.sanitize(historiaHtml));
+                        'No se encontró historia.'
+                );
             } catch (error) {
                 setVision('No se encontro vision');
                 setMision('No se encontro mision');
@@ -71,9 +76,11 @@ export default function AboutPage() {
     }, []);
 
     return (
-        <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
-            {/* Sección 1: Introducción */}
-            <section className="relative w-full h-screen flex items-center justify-center text-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/image/fondo.jpg')" }}>
+        <main className="flex flex-col items-center min-h-screen gap-12 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
+            <section
+                className="relative w-full h-screen flex items-center justify-center text-center bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: "url('/image/fondo.jpg')" }}
+            >
                 <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
@@ -81,15 +88,18 @@ export default function AboutPage() {
                     transition={{ duration: 0.8 }}
                     className="relative z-10 p-6"
                 >
-                    <h1 className="text-6xl font-bold text-white drop-shadow-lg">Acerca de Nosotros</h1>
+                    <h1 className="text-6xl font-bold text-white drop-shadow-lg">
+                        Acerca de Nosotros
+                    </h1>
                     <p className="mt-4 text-2xl text-white max-w-3xl mx-auto drop-shadow-md">
-                        Cultivamos talento para transformar el horizonte de Bolivia.
+                        Cultivamos talento para transformar el horizonte de
+                        Bolivia.
                     </p>
                 </motion.div>
             </section>
+            <div className="w-full h-1 bg-primary rounded-full"></div>
 
-            {/* Sección 2: Misión, Visión y Objetivos */}
-            <section className="max-w-6xl text-center py-20">
+            <section className="max-w-4xl mx-auto text-center py-16">
                 <motion.h2
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -99,83 +109,70 @@ export default function AboutPage() {
                     Nuestra Filosofía
                     <span className="block w-24 h-1 bg-primary mx-auto mt-3 rounded-full"></span>
                 </motion.h2>
-                <div className="grid md:grid-cols-3 gap-12">
+                <div className="flex flex-col gap-8 items-center">
                     {[
                         {
                             title: 'Misión',
-                            text: loading ? 'Cargando...' : DOMPurify.sanitize(mision),
+                            text: mision,
                             icon: <FaRegBuilding />,
                         },
                         {
                             title: 'Visión',
-                            text: loading ? 'Cargando...' : DOMPurify.sanitize(vision),
+                            text: vision,
                             icon: <FaLightbulb />,
                         },
                         {
                             title: 'Objetivos',
-                            text: loading ? 'Cargando...' : DOMPurify.sanitize(objetivo),
+                            text: objetivo,
                             icon: <FaTrophy />,
                         },
                     ].map((item, index) => (
                         <motion.div
                             key={index}
                             whileHover={{ scale: 1.05 }}
+                            transition={{ duration: 0.3 }}
                             className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200 hover:shadow-2xl transform transition-all duration-300"
                         >
                             <div className="text-3xl text-primary mb-4">
                                 {item.icon}
                             </div>
-                            <h3 className="text-2xl font-semibold text-primary mb-4">{item.title}</h3>
-                            <p className="text-gray-700 text-lg">{item.text}</p>
+                            <h3 className="text-2xl font-semibold text-primary mb-4">
+                                {item.title}
+                            </h3>
+                            <p className="text-gray-700 text-lg text-justify">
+                                {item.text}
+                            </p>
                         </motion.div>
                     ))}
                 </div>
             </section>
-
-            {/* Sección 3: Administración de Empresas */}
-            <section className="max-w-6xl py-20 text-center">
+            <section className="max-w-6xl py-10 text-center">
                 <motion.h2
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                     className="text-5xl font-bold text-primary mb-12"
                 >
-                    Administración de Empresas
+                    Nuestra Historia
                     <span className="block w-24 h-1 bg-primary mx-auto mt-3 rounded-full"></span>
                 </motion.h2>
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="relative w-full bg-white shadow-lg rounded-2xl overflow-hidden flex flex-col md:flex-row gap-10"
+                    whileHover={{ scale: 1.05 }}
+                    className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200 hover:shadow-2xl transform transition-all duration-300 max-w-3xl mx-auto"
                 >
-                    <div className="w-full md:w-1/2 flex flex-col items-center">
-                        <Image
-                            src="/image/fondo.jpg"
-                            alt="Administración de Empresas"
-                            width={600}
-                            height={400}
-                            className="w-full h-72 object-cover rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none"
-                        />
-                        <h2 className="text-3xl font-semibold text-primary mt-6 text-center">
-                            ADMINISTRACIÓN DE EMPRESAS
-                        </h2>
+                    <div className="text-3xl text-primary mb-4 flex justify-center">
+                        <FaBookOpen />
                     </div>
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="w-full md:w-1/2 bg-gradient-to-br from-blue-100 to-blue-300 p-10 border border-gray-200 hover:shadow-2xl transition-all flex flex-col justify-center rounded-2xl"
-                    >
-                        <h2 className="text-3xl font-semibold text-primary text-center mb-6">
-                            Historia
-                            <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
-                        </h2>
-                        <div
-                            className="text-lg text-gray-700 leading-relaxed text-center"
-                            dangerouslySetInnerHTML={{ __html: historia }}
-                        />
-                    </motion.div>
+                    <h3 className="text-2xl font-semibold text-primary mb-4">
+                        Historia
+                    </h3>
+                    <p
+                        className="text-gray-700 text-lg text-justify leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: historia }}
+                    />
                 </motion.div>
             </section>
         </main>

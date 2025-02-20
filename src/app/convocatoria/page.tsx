@@ -1,16 +1,17 @@
 'use client';
-
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Modal from '@/components/Modal';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+
 type Convocatoria = {
     idconvocatorias: number;
     con_foto_portada: string;
     con_titulo: string;
     con_descripcion: string;
     con_estado: string;
-    con_fecha_inicio: string; // Considera usar Date si quieres trabajar con objetos de fecha
-    con_fecha_fin: string; // Igualmente, puedes usar Date aquí
+    con_fecha_inicio: string;
+    con_fecha_fin: string;
     tipo_conv_comun: {
         idtipo_conv_comun: number;
         tipo_conv_comun_titulo: string;
@@ -21,6 +22,10 @@ type Convocatoria = {
 export default function InicioPage() {
     const [loading, setLoading] = useState(true);
     const [convocatorias, setConvocatorias] = useState<Convocatoria[]>([]);
+    const [selectedConvocatoria, setSelectedConvocatoria] =
+        useState<Convocatoria | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     useEffect(() => {
         const fetchConvocatoria = async () => {
             try {
@@ -32,9 +37,7 @@ export default function InicioPage() {
                     throw new Error(`Error HTTP: ${response.status}`);
 
                 const result = await response.json();
-                console.log('Respuesta de la API1:', result); // Verifica los datos en consola
-
-                setConvocatorias(result); // Guardamos la respuesta completa en data
+                setConvocatorias(result);
             } catch (error) {
                 console.error('Error al obtener datos', error);
                 setConvocatorias([]);
@@ -43,10 +46,19 @@ export default function InicioPage() {
             }
         };
 
-        // fetch de publicaciones
-
         fetchConvocatoria();
     }, []);
+
+    const handleOpenModal = (convocatoria: Convocatoria) => {
+        setSelectedConvocatoria(convocatoria);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setSelectedConvocatoria(null);
+        setIsModalOpen(false);
+    };
+
     return (
         <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
             {/* Sección 1: Título */}
@@ -54,10 +66,7 @@ export default function InicioPage() {
                 className="relative w-full text-center h-screen flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat"
                 style={{ backgroundImage: "url('/image/fondo.jpg')" }}
             >
-                {/* Superposición semi-transparente */}
                 <div className="absolute inset-0 bg-black/30 backdrop-blur-lg"></div>
-
-                {/* Contenido */}
                 <motion.div
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -75,8 +84,7 @@ export default function InicioPage() {
             </section>
 
             {/* Separador decorativo */}
-            <div className="w-full h-1 bg-secondary rounded-full"></div>
-
+            <div className="w-full h-1 bg-primary rounded-full"></div>
             {/* Sección 2: Últimas Publicaciones */}
             <section className="relative max-w-full">
                 <motion.h2
@@ -85,7 +93,7 @@ export default function InicioPage() {
                     transition={{ duration: 0.6 }}
                     className="text-3xl font-semibold text-primary text-center mb-6 relative"
                 >
-                    Convocatorias de la carrera
+                    CONVOCATORIAS DE LA CARRERA
                     <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
                 </motion.h2>
 
@@ -99,25 +107,22 @@ export default function InicioPage() {
                             <motion.div
                                 key={convocatoria.idconvocatorias}
                                 whileHover={{ scale: 1.05 }}
-                                className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50"
+                                onClick={() => handleOpenModal(convocatoria)}
+                                className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer flex flex-col items-center" // Cambios aquí
                             >
                                 <Image
                                     src={`https://serviciopagina.upea.bo/Convocatorias/${convocatoria.con_foto_portada}`}
                                     alt="Publicación"
                                     width={400}
                                     height={200}
-                                    className="rounded-lg"
+                                    className="rounded-lg mb-4" // Añadido margen inferior
                                     unoptimized
                                 />
-                                <h3 className="mt-4 font-semibold text-lg">
+                                <h3 className="font-semibold text-lg text-center">
+                                    {' '}
+                                    {/* Cambiado para centrar el texto */}
                                     {convocatoria.con_titulo}
                                 </h3>
-                                <p className="text-sm text-gray-500"
-                                    dangerouslySetInnerHTML={{
-                                        __html: convocatoria.con_descripcion,
-                                    }}
-                                />
-
                             </motion.div>
                         ))
                     ) : (
@@ -126,8 +131,16 @@ export default function InicioPage() {
                         </p>
                     )}
                 </div>
+
+                {/* Modal para mostrar detalles de la convocatoria */}
+                {selectedConvocatoria && (
+                    <Modal
+                        isOpen={isModalOpen}
+                        onClose={handleCloseModal}
+                        convocatoria={selectedConvocatoria}
+                    />
+                )}
             </section>
-            <br />
         </main>
     );
 }

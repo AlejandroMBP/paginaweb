@@ -53,6 +53,12 @@ export default {
                     '4': 'hsl(var(--chart-4))',
                     '5': 'hsl(var(--chart-5))',
                 },
+                // Nuevos colores añadidos
+                custom: {
+                    primary: 'hsl(0, 81%, 38%)', // C20317
+                    secondary: 'hsl(215, 100%, 50%)', // 0511F2
+                    tertiary: 'hsl(200, 100%, 60%)', // 277FFE
+                },
             },
             borderRadius: {
                 lg: 'var(--radius)',

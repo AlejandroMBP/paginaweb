@@ -4,7 +4,7 @@ import { Montserrat } from 'next/font/google';
 import './globals.css';
 import { Footer } from '@/components/layout/Footer';
 import { Navbar } from '@/components/layout/Navbar';
-
+import { Acreditacion } from '@/components/Acreditacion';
 const montserrat = Montserrat({
     subsets: ['latin'],
     weight: ['400', '700'],
@@ -38,6 +38,7 @@ export default function RootLayout({
                 className={`${montserrat.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
             >
                 <Navbar />
+                <Acreditacion />
                 {children}
                 <Footer />
             </body>
