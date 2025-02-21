@@ -4,10 +4,14 @@ import Image from 'next/image';
 
 export function Acreditacion() {
     return (
-        <div className="fixed left-0 top-40 -translate-y-1/2 flex items-center z-50">
-            <div className="bg-primary text-white text-lg font-semibold flex items-center px-4 py-2 rounded-r-lg shadow-lg">
-                {' '}
-                {/* Recuadro con texto */}
+        <a
+            href="https://ceub.edu.bo/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="fixed left-0 top-40 -translate-y-1/2 flex items-center z-50 group hover:scale-105 transition-transform duration-300"
+        >
+            {/* Recuadro con texto */}
+            <div className="bg-primary text-white text-xs font-semibold flex items-center px-2.5 py-1 rounded-r-lg shadow-md">
                 <div className="flex flex-col">
                     <span>
                         Carrera Acreditada por <br />
@@ -15,17 +19,17 @@ export function Acreditacion() {
                     </span>
                 </div>
             </div>
-            <div className="flex items-center justify-center h-20 w-20 bg-white rounded-full border-4 border-white -ml-4">
-                {' '}
-                {/* Juntar el logo al cuadro */}
+
+            {/* Contenedor del logo con animación */}
+            <div className="flex items-center justify-center h-[18px] w-[18px] md:h-[76px] md:w-[76px] bg-white rounded-full border-2 border-white -ml-3 transition-transform duration-300 group-hover:scale-110">
                 <Image
-                    src="/image/logo.jpeg" // Ruta de la imagen
-                    alt="Logo administracion de empresas"
-                    width={70} // Ajusta el tamaño según sea necesario
-                    height={70}
-                    className="rounded-full" // Hace que la imagen sea circular
+                    src="/image/logo.jpeg"
+                    alt="Logo administración de empresas"
+                    width={95} // Reducción del 5%
+                    height={95}
+                    className="rounded-full"
                 />
             </div>
-        </div>
+        </a>
     );
 }

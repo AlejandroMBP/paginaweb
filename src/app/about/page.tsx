@@ -7,73 +7,93 @@ import {
     FaLightbulb,
     FaTrophy,
     FaBookOpen,
+    FaUserTie,
+    FaEye,
+    FaBullseye,
 } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
 
 export default function AboutPage() {
-    const [loading, setLoading] = useState(true);
-    const [vision, setVision] = useState('Cargando...');
-    const [mision, setMision] = useState('Cargando...');
-    const [objetivo, setObjetivo] = useState('Cargando...');
-    const [historia, setHistoria] = useState('Cargando...');
+    // const [loading, setLoading] = useState(true);
+    // const [vision, setVision] = useState('Cargando...');
+    // const [mision, setMision] = useState('Cargando...');
+    // const [objetivo, setObjetivo] = useState('Cargando...');
+    // const [historia, setHistoria] = useState('Cargando...');
 
-    useEffect(() => {
-        const fetchAcercade = async () => {
-            try {
-                const response = await fetch(
-                    'https://serviciopagina.upea.bo/api/InstitucionUPEA/10'
-                );
-                if (!response.ok)
-                    throw new Error(`Error HTTP: ${response.status}`);
-                const result = await response.json();
+    // useEffect(() => {
+    //     const fetchAcercade = async () => {
+    //         try {
+    //             const response = await fetch(
+    //                 'https://serviciopagina.upea.bo/api/InstitucionUPEA/10'
+    //             );
+    //             if (!response.ok)
+    //                 throw new Error(`Error HTTP: ${response.status}`);
+    //             const result = await response.json();
 
-                const tempDiv = document.createElement('div');
-                const tempMisDiv = document.createElement('div');
-                const tempObjDiv = document.createElement('div');
+    //             const tempDiv = document.createElement('div');
+    //             const tempMisDiv = document.createElement('div');
+    //             const tempObjDiv = document.createElement('div');
 
-                tempDiv.innerHTML =
-                    result?.Descripcion?.institucion_vision ||
-                    'No se encontró contenido de vision.';
-                setVision(
-                    tempDiv.textContent ||
-                        tempDiv.innerText ||
-                        'No se encontró contenido de vision.'
-                );
+    //             tempDiv.innerHTML =
+    //                 result?.Descripcion?.institucion_vision ||
+    //                 'No se encontró contenido de vision.';
+    //             setVision(
+    //                 tempDiv.textContent ||
+    //                     tempDiv.innerText ||
+    //                     'No se encontró contenido de vision.'
+    //             );
 
-                tempMisDiv.innerHTML =
-                    result?.Descripcion?.institucion_mision ||
-                    'No se encontró contenido.';
-                setMision(
-                    tempMisDiv.textContent ||
-                        tempMisDiv.innerText ||
-                        'No se encontró contenido.'
-                );
+    //             tempMisDiv.innerHTML =
+    //                 result?.Descripcion?.institucion_mision ||
+    //                 'No se encontró contenido.';
+    //             setMision(
+    //                 tempMisDiv.textContent ||
+    //                     tempMisDiv.innerText ||
+    //                     'No se encontró contenido.'
+    //             );
 
-                tempObjDiv.innerHTML =
-                    result?.Descripcion?.institucion_objetivos ||
-                    'No se encontró contenido.';
-                setObjetivo(
-                    tempObjDiv.textContent ||
-                        tempObjDiv.innerText ||
-                        'No se encontró contenido.'
-                );
+    //             tempObjDiv.innerHTML =
+    //                 result?.Descripcion?.institucion_objetivos ||
+    //                 'No se encontró contenido.';
+    //             setObjetivo(
+    //                 tempObjDiv.textContent ||
+    //                     tempObjDiv.innerText ||
+    //                     'No se encontró contenido.'
+    //             );
 
-                setHistoria(
-                    result?.Descripcion?.institucion_historia ||
-                        'No se encontró historia.'
-                );
-            } catch (error) {
-                setVision('No se encontro vision');
-                setMision('No se encontro mision');
-                setObjetivo('No se encontro objetivo');
-                setHistoria('No se encontro historia');
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchAcercade();
-    }, []);
+    //             setHistoria(
+    //                 result?.Descripcion?.institucion_historia ||
+    //                     'No se encontró historia.'
+    //             );
+    //         } catch (error) {
+    //             setVision('No se encontro vision');
+    //             setMision('No se encontro mision');
+    //             setObjetivo('No se encontro objetivo');
+    //             setHistoria('No se encontro historia');
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+    //     fetchAcercade();
+    // }, []);
+    const cards = [
+        {
+            title: 'MISIÓN',
+            image: '/image/Mision.jpeg',
+            icon: <FaBullseye className="text-4xl text-primary" />, // Ícono para misión
+        },
+        {
+            title: 'VISIÓN',
+            image: '/image/vision.jpeg',
+            icon: <FaEye className="text-4xl text-primary" />, // Ícono para visión
+        },
+        {
+            title: 'PERFIL PROFESIONAL',
+            image: '/image/PerfilProfecional.jpeg',
+            icon: <FaUserTie className="text-4xl text-primary" />, // Ícono para perfil profesional
+        },
+    ];
 
     return (
         <main className="flex flex-col items-center min-h-screen gap-12 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
@@ -97,83 +117,129 @@ export default function AboutPage() {
                     </p>
                 </motion.div>
             </section>
+
             <div className="w-full h-1 bg-primary rounded-full"></div>
 
-            <section className="max-w-4xl mx-auto text-center py-16">
+            <section className="max-w-7xl mx-auto text-center py-16">
                 <motion.h2
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-5xl font-bold text-primary mb-12"
+                    className="text-5xl font-extrabold text-primary uppercase tracking-wide mb-12"
                 >
                     Nuestra Filosofía
-                    <span className="block w-24 h-1 bg-primary mx-auto mt-3 rounded-full"></span>
                 </motion.h2>
-                <div className="flex flex-col gap-8 items-center">
-                    {[
-                        {
-                            title: 'Misión',
-                            text: mision,
-                            icon: <FaRegBuilding />,
-                        },
-                        {
-                            title: 'Visión',
-                            text: vision,
-                            icon: <FaLightbulb />,
-                        },
-                        {
-                            title: 'Objetivos',
-                            text: objetivo,
-                            icon: <FaTrophy />,
-                        },
-                    ].map((item, index) => (
+
+                <div className="flex justify-center gap-[20px] flex-wrap max-w-[2500px] mx-auto">
+                    {cards.map((card, index) => (
                         <motion.div
                             key={index}
-                            whileHover={{ scale: 1.05 }}
-                            transition={{ duration: 0.3 }}
-                            className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200 hover:shadow-2xl transform transition-all duration-300"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: index * 0.2 }}
+                            className="relative bg-gray-200 rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 
+                           w-[400px] h-[300px] flex-shrink-0 group"
                         >
-                            <div className="text-3xl text-primary mb-4">
-                                {item.icon}
+                            {/* Imagen de fondo ajustada completamente */}
+                            <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
+                                <Image
+                                    src={card.image}
+                                    alt={`Imagen ${index + 1}`}
+                                    layout="fill"
+                                    objectFit="contain" // Ahora la imagen se verá completa dentro del card
+                                    objectPosition="center"
+                                />
                             </div>
-                            <h3 className="text-2xl font-semibold text-primary mb-4">
-                                {item.title}
-                            </h3>
-                            <p className="text-gray-700 text-lg text-justify">
-                                {item.text}
-                            </p>
+
+                            {/* Capa de degradado que aparece al hacer hover */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                            {/* Contenedor del icono y título con animación de barrido */}
+                            <div
+                                className="absolute inset-0 flex flex-col items-center justify-center text-white opacity-0 
+                    group-hover:opacity-100 group-hover:translate-y-0 translate-y-10 transition-all duration-500"
+                            >
+                                {card.icon}
+                                <h2 className="text-xl font-semibold mt-2">
+                                    {card.title}
+                                </h2>
+                            </div>
                         </motion.div>
                     ))}
                 </div>
             </section>
+
+            <div className="w-full h-1 bg-primary rounded-full"></div>
+
             <section className="max-w-6xl py-10 text-center">
                 <motion.h2
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-5xl font-bold text-primary mb-12"
+                    className="relative text-5xl font-montserrat font-extrabold text-primary text-center mb-8 uppercase tracking-wide drop-shadow-xl px-6 py-3 flex items-center justify-center"
                 >
-                    Nuestra Historia
-                    <span className="block w-24 h-1 bg-primary mx-auto mt-3 rounded-full"></span>
+                    {/* Líneas animadas - Izquierda */}
+                    <motion.div
+                        initial={{ x: -20 }}
+                        animate={{ x: 20 }}
+                        transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                        }}
+                        className="w-12 h-1 bg-secondary rounded-full mr-3"
+                    ></motion.div>
+
+                    {/* Texto principal */}
+                    <span className="relative z-10">NUESTRA HISTORIA</span>
+
+                    {/* Líneas animadas - Derecha */}
+                    <motion.div
+                        initial={{ x: 20 }}
+                        animate={{ x: -20 }}
+                        transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                        }}
+                        className="w-12 h-1 bg-secondary rounded-full ml-3"
+                    ></motion.div>
+
+                    {/* Fondo degradado decorativo */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 via-transparent to-secondary/20 blur-lg opacity-50"></div>
+
+                    {/* Línea decorativa principal */}
+                    <span className="absolute bottom-[-8px] left-1/2 transform -translate-x-1/2 w-28 h-1 bg-primary rounded-full"></span>
+
+                    {/* Subrayado animado más llamativo */}
+                    <motion.span
+                        initial={{ width: '3rem' }}
+                        whileHover={{ width: '7rem' }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute bottom-[-12px] left-1/2 transform -translate-x-1/2 h-1 bg-secondary rounded-full"
+                    ></motion.span>
+
+                    {/* Brillo sutil */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0"
+                    ></motion.div>
+
+                    {/* Borde resplandeciente */}
+                    <motion.div
+                        initial={{ borderColor: 'transparent' }}
+                        whileHover={{ borderColor: 'rgba(255, 255, 255, 0.5)' }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute inset-0 border-2 border-transparent rounded-lg"
+                    ></motion.div>
                 </motion.h2>
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    whileHover={{ scale: 1.05 }}
-                    className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200 hover:shadow-2xl transform transition-all duration-300 max-w-3xl mx-auto"
-                >
-                    <div className="text-3xl text-primary mb-4 flex justify-center">
-                        <FaBookOpen />
+                <div>
+                    <div>
+                        <h2>HISTORIA</h2>
                     </div>
-                    <h3 className="text-2xl font-semibold text-primary mb-4">
-                        Historia
-                    </h3>
-                    <p
-                        className="text-gray-700 text-lg text-justify leading-relaxed"
-                        dangerouslySetInnerHTML={{ __html: historia }}
-                    />
-                </motion.div>
+                </div>
             </section>
         </main>
     );

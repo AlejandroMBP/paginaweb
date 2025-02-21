@@ -94,7 +94,7 @@ export default function InicioPage() {
                     transition={{ duration: 0.8 }}
                     className="relative z-10 p-4 text-white"
                 >
-                    <h1 className="text-5xl font-bold">Publicaciones</h1>
+                    <h1 className="text-5xl font-bold">PUBLICACIONES</h1>
                     <p className="mt-4 text-lg max-w-2xl mx-auto">
                         Formación académica con enfoque en liderazgo,
                         emprendimiento y gestión organizacional.
@@ -129,10 +129,64 @@ export default function InicioPage() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-3xl font-semibold text-primary text-center mb-6 relative"
+                    className="relative text-5xl font-montserrat font-extrabold text-primary text-center mb-8 uppercase tracking-wide drop-shadow-xl px-6 py-3 flex items-center justify-center"
                 >
-                    Publicaciones
-                    <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
+                    {/* Líneas animadas - Izquierda */}
+                    <motion.div
+                        initial={{ x: -20 }}
+                        animate={{ x: 20 }}
+                        transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                        }}
+                        className="w-12 h-1 bg-secondary rounded-full mr-3"
+                    ></motion.div>
+
+                    {/* Texto principal */}
+                    <span className="relative z-10">PUBLICACIONES</span>
+
+                    {/* Líneas animadas - Derecha */}
+                    <motion.div
+                        initial={{ x: 20 }}
+                        animate={{ x: -20 }}
+                        transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                        }}
+                        className="w-12 h-1 bg-secondary rounded-full ml-3"
+                    ></motion.div>
+
+                    {/* Fondo degradado decorativo */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 via-transparent to-secondary/20 blur-lg opacity-50"></div>
+
+                    {/* Línea decorativa principal */}
+                    <span className="absolute bottom-[-8px] left-1/2 transform -translate-x-1/2 w-28 h-1 bg-primary rounded-full"></span>
+
+                    {/* Subrayado animado más llamativo */}
+                    <motion.span
+                        initial={{ width: '3rem' }}
+                        whileHover={{ width: '7rem' }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute bottom-[-12px] left-1/2 transform -translate-x-1/2 h-1 bg-secondary rounded-full"
+                    ></motion.span>
+
+                    {/* Brillo sutil */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0"
+                    ></motion.div>
+
+                    {/* Borde resplandeciente */}
+                    <motion.div
+                        initial={{ borderColor: 'transparent' }}
+                        whileHover={{ borderColor: 'rgba(255, 255, 255, 0.5)' }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute inset-0 border-2 border-transparent rounded-lg"
+                    ></motion.div>
                 </motion.h2>
                 {loading ? (
                     <p className="text-center text-gray-600">

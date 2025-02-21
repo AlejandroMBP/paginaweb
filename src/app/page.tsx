@@ -4,6 +4,12 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Modal from '@/components/ModalInicio';
+import { ShieldCheck, Sparkles, Star } from 'lucide-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination, Navigation, Autoplay } from 'swiper/modules';
+
 type InstitucionData = {
     Descripcion?: {
         institucion_nombre?: string;
@@ -142,39 +148,106 @@ export default function InicioPage() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-3xl font-montserrat font-semibold text-primary text-center mb-6 relative"
+                    className="relative text-5xl font-montserrat font-extrabold text-primary text-center mb-8 uppercase tracking-wide drop-shadow-xl px-6 py-3 flex items-center justify-center"
                 >
-                    ÚLTIMAS PUBLICACIONES
-                    <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
+                    {/* Líneas animadas - Izquierda */}
+                    <motion.div
+                        initial={{ x: -20 }}
+                        animate={{ x: 20 }}
+                        transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                        }}
+                        className="w-12 h-1 bg-secondary rounded-full mr-3"
+                    ></motion.div>
+
+                    {/* Texto principal */}
+                    <span className="relative z-10">ÚLTIMAS PUBLICACIONES</span>
+
+                    {/* Líneas animadas - Derecha */}
+                    <motion.div
+                        initial={{ x: 20 }}
+                        animate={{ x: -20 }}
+                        transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                        }}
+                        className="w-12 h-1 bg-secondary rounded-full ml-3"
+                    ></motion.div>
+
+                    {/* Fondo degradado decorativo */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 via-transparent to-secondary/20 blur-lg opacity-50"></div>
+
+                    {/* Línea decorativa principal */}
+                    <span className="absolute bottom-[-8px] left-1/2 transform -translate-x-1/2 w-28 h-1 bg-primary rounded-full"></span>
+
+                    {/* Subrayado animado más llamativo */}
+                    <motion.span
+                        initial={{ width: '3rem' }}
+                        whileHover={{ width: '7rem' }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute bottom-[-12px] left-1/2 transform -translate-x-1/2 h-1 bg-secondary rounded-full"
+                    ></motion.span>
+
+                    {/* Brillo sutil */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0"
+                    ></motion.div>
+
+                    {/* Borde resplandeciente */}
+                    <motion.div
+                        initial={{ borderColor: 'transparent' }}
+                        whileHover={{ borderColor: 'rgba(255, 255, 255, 0.5)' }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute inset-0 border-2 border-transparent rounded-lg"
+                    ></motion.div>
                 </motion.h2>
 
-                <div className="grid md:grid-cols-3 gap-6 min-h-[150px] justify-center">
+                <Swiper
+                    modules={[Pagination, Navigation, Autoplay]}
+                    spaceBetween={20}
+                    slidesPerView={1}
+                    breakpoints={{
+                        768: { slidesPerView: 2 },
+                        1024: { slidesPerView: 3 },
+                    }}
+                    navigation
+                    pagination={{ clickable: true }}
+                    autoplay={{ delay: 5000 }}
+                    className="w-full"
+                >
                     {publicaciones.length > 0 ? (
                         publicaciones.map((post) => (
-                            <motion.div
-                                key={post.publicaciones_id}
-                                whileHover={{ scale: 1.05 }}
-                                onClick={() => openModal(post)}
-                                className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer"
-                            >
-                                <Image
-                                    src={`https://serviciopagina.upea.bo/Publicaciones/${post.publicaciones_imagen}`}
-                                    alt={post.publicaciones_titulo}
-                                    width={400}
-                                    height={200}
-                                    className="rounded-lg"
-                                    unoptimized
-                                />
-                                <h3 className="mt-4 font-semibold text-lg">
-                                    {post.publicaciones_titulo}
-                                </h3>
-                                <p
-                                    className="text-sm text-gray-500"
-                                    dangerouslySetInnerHTML={{
-                                        __html: post.publicaciones_descripcion,
-                                    }}
-                                />
-                            </motion.div>
+                            <SwiperSlide key={post.publicaciones_id}>
+                                <motion.div
+                                    whileHover={{ scale: 1.05 }}
+                                    onClick={() => openModal(post)}
+                                    className="relative bg-white shadow-lg rounded-xl overflow-hidden p-6 border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer min-w-[30rem] min-h-[40rem]"
+                                >
+                                    <Image
+                                        src={`https://serviciopagina.upea.bo/Publicaciones/${post.publicaciones_imagen}`}
+                                        alt={post.publicaciones_titulo}
+                                        width={400} // Ancho fijo
+                                        height={400} // Alto fijo
+                                        className="rounded-lg w-full h-[450px] object-cover" // Tamaño fijo
+                                        unoptimized
+                                    />
+                                    <h3 className="mt-4 font-semibold text-lg">
+                                        {post.publicaciones_titulo}
+                                    </h3>
+                                    <p
+                                        className="text-sm text-gray-500"
+                                        dangerouslySetInnerHTML={{
+                                            __html: post.publicaciones_descripcion,
+                                        }}
+                                    />
+                                </motion.div>
+                            </SwiperSlide>
                         ))
                     ) : (
                         <div className="flex justify-center items-center w-full col-span-3">
@@ -183,7 +256,7 @@ export default function InicioPage() {
                             </p>
                         </div>
                     )}
-                </div>
+                </Swiper>
             </section>
 
             {/* Modal para Publicaciones */}
@@ -200,20 +273,16 @@ export default function InicioPage() {
                         transition={{ duration: 0.3 }}
                         className="p-6 bg-white rounded-lg shadow-lg"
                     >
-                        <h2 className="text-2xl font-bold mb-4">
-                            {selectedPublication.publicaciones_titulo}
-                        </h2>
-                        <Image
-                            src={`https://serviciopagina.upea.bo/Publicaciones/${selectedPublication.publicaciones_imagen}`}
-                            alt={selectedPublication.publicaciones_titulo}
-                            width={500}
-                            height={300}
-                            className="rounded-lg"
-                            unoptimized
+                        <p
+                            className="text-gray-700"
+                            dangerouslySetInnerHTML={{
+                                __html: selectedPublication.publicaciones_descripcion,
+                            }}
                         />
                     </motion.div>
                 </Modal>
             )}
+
             {/* Separador decorativo */}
             <div className="w-full h-1 bg-primary rounded-full"></div>
             {/* Sección 3: Autoridades */}
@@ -222,32 +291,99 @@ export default function InicioPage() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-3xl font-montserrat font-semibold text-primary text-center mb-6 relative"
+                    className="relative text-5xl font-montserrat font-extrabold text-primary text-center mb-8 uppercase tracking-wide drop-shadow-xl px-6 py-3 flex items-center justify-center"
                 >
-                    AUTORIDADES
-                    <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
+                    {/* Líneas animadas - Izquierda */}
+                    <motion.div
+                        initial={{ x: -20 }}
+                        animate={{ x: 20 }}
+                        transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                        }}
+                        className="w-12 h-1 bg-secondary rounded-full mr-3"
+                    ></motion.div>
+
+                    {/* Texto principal */}
+                    <span className="relative z-10">AUTORIDADES</span>
+
+                    {/* Líneas animadas - Derecha */}
+                    <motion.div
+                        initial={{ x: 20 }}
+                        animate={{ x: -20 }}
+                        transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                        }}
+                        className="w-12 h-1 bg-secondary rounded-full ml-3"
+                    ></motion.div>
+
+                    {/* Fondo degradado decorativo */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 via-transparent to-secondary/20 blur-lg opacity-50"></div>
+
+                    {/* Línea decorativa principal */}
+                    <span className="absolute bottom-[-8px] left-1/2 transform -translate-x-1/2 w-28 h-1 bg-primary rounded-full"></span>
+
+                    {/* Subrayado animado más llamativo */}
+                    <motion.span
+                        initial={{ width: '3rem' }}
+                        whileHover={{ width: '7rem' }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute bottom-[-12px] left-1/2 transform -translate-x-1/2 h-1 bg-secondary rounded-full"
+                    ></motion.span>
+
+                    {/* Brillo sutil */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0"
+                    ></motion.div>
+
+                    {/* Borde resplandeciente */}
+                    <motion.div
+                        initial={{ borderColor: 'transparent' }}
+                        whileHover={{ borderColor: 'rgba(255, 255, 255, 0.5)' }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute inset-0 border-2 border-transparent rounded-lg"
+                    ></motion.div>
                 </motion.h2>
 
-                {data && data.Descripcion && data.Descripcion.autoridad ? (
+                {data?.Descripcion?.autoridad ? (
                     <div className="grid md:grid-cols-3 gap-6">
                         {data.Descripcion.autoridad.map((autoridad) => (
                             <motion.div
                                 key={autoridad.id_autoridad}
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ duration: 0.2 }}
-                                className="p-4 border rounded-lg shadow-lg transform hover:shadow-xl transition-shadow duration-300 bg-white"
+                                whileHover={{
+                                    scale: 1.05,
+                                    boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)',
+                                    borderColor: '#C20317',
+                                }}
+                                transition={{ duration: 0.3 }}
+                                className="relative border-4 border-white rounded-lg shadow-lg overflow-hidden min-w-[30rem] min-h-[40rem] transition-all duration-300 group"
                             >
-                                <img
-                                    src={`https://serviciopagina.upea.bo/InstitucionUpea/Autoridad/${autoridad.foto_autoridad}`}
-                                    alt={autoridad.nombre_autoridad}
-                                    className="w-32 h-32 rounded-full border-4 border-primary mx-auto shadow-md"
+                                {/* Imagen de fondo */}
+                                <div
+                                    className="absolute inset-0 bg-cover bg-center transition-opacity duration-300"
+                                    style={{
+                                        backgroundImage: `url(https://serviciopagina.upea.bo/InstitucionUpea/Autoridad/${autoridad.foto_autoridad})`,
+                                    }}
                                 />
-                                <h3 className="text-lg font-bold text-center mt-4 text-primary">
-                                    {autoridad.nombre_autoridad}
-                                </h3>
-                                <p className="text-sm text-center text-gray-600">
-                                    {autoridad.cargo_autoridad}
-                                </p>
+
+                                {/* Overlay degradado (solo aparece en hover) */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0511F2] to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+
+                                {/* Información */}
+                                <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 text-center p-4">
+                                    <h3 className="text-lg font-bold text-primary">
+                                        {autoridad.nombre_autoridad}
+                                    </h3>
+                                    <p className="text-sm text-gray-600">
+                                        {autoridad.cargo_autoridad}
+                                    </p>
+                                </div>
                             </motion.div>
                         ))}
                     </div>
@@ -266,17 +402,81 @@ export default function InicioPage() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-3xl font-semibold text-primary mb-6 text-center relative"
+                    className="relative text-5xl font-montserrat font-extrabold text-primary text-center mb-8 uppercase tracking-wide drop-shadow-xl px-6 py-3 flex items-center justify-center"
                 >
-                    UBICACIÓN
-                    <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
+                    {/* Líneas animadas - Izquierda */}
+                    <motion.div
+                        initial={{ x: -20 }}
+                        animate={{ x: 20 }}
+                        transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                        }}
+                        className="w-12 h-1 bg-secondary rounded-full mr-3"
+                    ></motion.div>
+
+                    {/* Texto principal */}
+                    <span className="relative z-10">UBICACIÓN</span>
+
+                    {/* Líneas animadas - Derecha */}
+                    <motion.div
+                        initial={{ x: 20 }}
+                        animate={{ x: -20 }}
+                        transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                        }}
+                        className="w-12 h-1 bg-secondary rounded-full ml-3"
+                    ></motion.div>
+
+                    {/* Fondo degradado decorativo */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 via-transparent to-secondary/20 blur-lg opacity-50"></div>
+
+                    {/* Línea decorativa principal */}
+                    <span className="absolute bottom-[-8px] left-1/2 transform -translate-x-1/2 w-28 h-1 bg-primary rounded-full"></span>
+
+                    {/* Subrayado animado más llamativo */}
+                    <motion.span
+                        initial={{ width: '3rem' }}
+                        whileHover={{ width: '7rem' }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute bottom-[-12px] left-1/2 transform -translate-x-1/2 h-1 bg-secondary rounded-full"
+                    ></motion.span>
+
+                    {/* Brillo sutil */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0"
+                    ></motion.div>
+
+                    {/* Borde resplandeciente */}
+                    <motion.div
+                        initial={{ borderColor: 'transparent' }}
+                        whileHover={{ borderColor: 'rgba(255, 255, 255, 0.5)' }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute inset-0 border-2 border-transparent rounded-lg"
+                    ></motion.div>
                 </motion.h2>
 
-                <div className="w-full h-80 overflow-hidden rounded-lg shadow-lg border border-gray-200">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    className="w-full h-96 overflow-hidden rounded-lg shadow-lg border border-gray-200"
+                >
                     {loading || !mapsUbicacion ? (
-                        <p className="text-center text-gray-500 text-lg font-semibold mt-6">
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                            className="text-center text-gray-500 text-lg font-semibold mt-6"
+                        >
                             Cargando mapa...
-                        </p>
+                        </motion.p>
                     ) : (
                         <iframe
                             src={mapsUbicacion}
@@ -286,11 +486,16 @@ export default function InicioPage() {
                             referrerPolicy="no-referrer-when-downgrade"
                         ></iframe>
                     )}
-                </div>
-                <div className="text-center text-primary">
+                </motion.div>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    className="text-center text-primary mt-2"
+                >
                     <strong>{loading ? 'Cargando...' : direccion}</strong>
-                </div>
-                <br />
+                </motion.div>
             </section>
         </main>
     );
