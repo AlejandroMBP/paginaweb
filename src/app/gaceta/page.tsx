@@ -1,6 +1,13 @@
 'use client';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { Document, Page, pdfjs } from 'react-pdf';
+// Importar los estilos de react-pdf
+import "react-pdf/dist/esm/Page/TextLayer.css";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import { FaExternalLinkAlt } from 'react-icons/fa';
+// Configurar el worker de PDF.js
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 type Gaceta = {
     gaceta_id: number;
@@ -13,7 +20,6 @@ type Gaceta = {
 export default function InicioPage() {
     const [loading, setLoading] = useState(true);
     const [gacetas, setGaceta] = useState<Gaceta[]>([]);
-    const [pdfUrl, setPdfUrl] = useState<string | null>(null); // Estado para la URL del PDF
 
     useEffect(() => {
         const fetchGaceta = async () => {
@@ -21,8 +27,7 @@ export default function InicioPage() {
                 const response = await fetch(
                     'https://serviciopagina.upea.bo/api/gacetaunivAll/10'
                 );
-                if (!response.ok)
-                    throw new Error(`Error HTTP: ${response.status}`);
+                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
                 const result = await response.json();
                 setGaceta(result);
             } catch (error) {
@@ -33,16 +38,15 @@ export default function InicioPage() {
         };
         fetchGaceta();
     }, []);
-
-    const handlePdfPreview = (gaceta: Gaceta) => {
-        const url = `https://serviciopagina.upea.bo/Gaceta/${gaceta.gaceta_documento}`;
-        setPdfUrl(url);
+    const formatDate = (dateString: string) => {
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-ES', options); // Cambia 'es-ES' por el código de idioma que desees
     };
-
-    const closePdfPreview = () => {
-        setPdfUrl(null);
-    };
-
     return (
         <main className="flex flex-col items-center min-h-screen gap-16 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
             {/* Sección 1: Título */}
@@ -57,9 +61,7 @@ export default function InicioPage() {
                     transition={{ duration: 0.8 }}
                     className="relative z-10 p-4 text-white"
                 >
-                    <h2 className="text-5xl font-bold drop-shadow-lg">
-                        GACETA
-                    </h2>
+                    <h2 className="text-5xl font-bold drop-shadow-lg">GACETA</h2>
                     <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-md">
                         Formación académica con enfoque en liderazgo,
                         emprendimiento y gestión organizacional.
@@ -82,58 +84,60 @@ export default function InicioPage() {
                     <span className="block w-20 h-1 bg-primary mx-auto mt-2 rounded-full"></span>
                 </motion.h2>
 
-                <div className="grid md:grid-cols-3 gap-6">
+                <div className="grid md:grid-cols-4 gap-6">
                     {loading ? (
-                        <p className="text-center col-span-3">
-                            Cargando gaceta...
-                        </p>
+                        <p className="text-center col-span-3">Cargando gaceta...</p>
                     ) : gacetas.length > 0 ? (
                         gacetas.map((gaceta) => (
                             <motion.div
                                 key={gaceta.gaceta_id}
                                 whileHover={{ scale: 1.05 }}
-                                onClick={() => handlePdfPreview(gaceta)} // Maneja el clic
-                                className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer"
+                                className="bg-white shadow-lg rounded-xl overflow-hidden transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer w-full md:w-80 h-[30rem] flex flex-col relative group"
                             >
-                                <h3 className="mt-4 font-semibold text-lg">
-                                    {gaceta.gaceta_titulo}
-                                </h3>
-                                <p className="text-sm text-gray-500">
-                                    {gaceta.gaceta_tipo}
-                                </p>
-                                <p className="text-sm text-gray-500">
-                                    {gaceta.gaceta_fecha}
-                                </p>
+                                {/* Vista previa del PDF */}
+                                <div className="w-full h-[30rem] border-b border-gray-300 overflow-hidden bg-gray-100 flex justify-center items-center relative group">
+                                    <Document
+                                        file={`https://serviciopagina.upea.bo/Gaceta/${gaceta.gaceta_documento}`}
+                                        loading="Cargando PDF..."
+                                    >
+                                        <Page pageNumber={1} width={290} height={350} />
+                                    </Document>
+
+                                    <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+
+                                    <a
+                                        href={`https://serviciopagina.upea.bo/Gaceta/${gaceta.gaceta_documento}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="absolute inset-0 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                                    >
+                                        <FaExternalLinkAlt className="text-4xl text-primary" />
+                                        <h3 className="text-xl font-semibold mt-2 text-white">
+                                            Abrir documento
+                                        </h3>
+                                    </a>
+                                </div>
+
+                                {/* Contenido del card */}
+                                <div className="p-4 flex flex-col justify-between flex-grow hove:text-white">
+                                    <a
+                                        href={`https://serviciopagina.upea.bo/Gaceta/${gaceta.gaceta_documento}`}
+                                        target="_blank"
+                                    >
+                                        <h3 className="font-semibold text-lg text-primary truncate">{gaceta.gaceta_titulo}</h3>
+                                        <div className="space-y-1">
+                                            <p className="text-sm text-gray-600">{gaceta.gaceta_tipo}</p>
+                                            <p className="text-sm text-gray-600 ">{formatDate(gaceta.gaceta_fecha)}</p>
+                                        </div>
+                                    </a>
+                                </div>
                             </motion.div>
                         ))
                     ) : (
-                        <p className="text-center col-span-3">
-                            No hay gaceta no disponible disponibles.
-                        </p>
+                        <p className="text-center col-span-3">No hay gaceta no disponible disponibles.</p>
                     )}
                 </div>
             </section>
-
-            {/* Vista previa del PDF */}
-            {pdfUrl && (
-                <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-                    <div className="bg-white p-4 rounded shadow-lg relative">
-                        <button
-                            onClick={closePdfPreview}
-                            className="absolute top-2 right-2 text-red-500"
-                        >
-                            Cerrar
-                        </button>
-                        <iframe
-                            src="https://serviciopagina.upea.bo/Gaceta/3316cb2c-1356-4582-b96f-7dd209b3d4d0.pdf"
-                            width="600"
-                            height="800"
-                            title="Vista previa del PDF"
-                            className="border-none"
-                        ></iframe>
-                    </div>
-                </div>
-            )}
-        </main>
+        </main >
     );
 }

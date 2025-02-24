@@ -1,0 +1,169 @@
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import Image from 'next/image';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination, Navigation, Autoplay } from 'swiper/modules';
+import Modal from './ModalInicio';
+
+interface Publicaciones {
+    publicaciones_id: number;
+    publicaciones_titulo: string;
+    publicaciones_tipo: string;
+    publicaciones_imagen: string;
+    publicaciones_descripcion: string;
+    publicaciones_fecha: string; // Cambiado a string para manejar la fecha como texto
+    publicaciones_autor: string;
+    publicaciones_documento: string;
+}
+
+interface PublicacionesSectionProps {
+    publicaciones: Publicaciones[];
+}
+
+export default function PublicacionesSection({ publicaciones }: PublicacionesSectionProps) {
+    // Estados para el modal
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedPublication, setSelectedPublication] = useState<Publicaciones | null>(null);
+
+    // Función para abrir el modal
+    const handleOpenModal = (post: Publicaciones) => {
+        setSelectedPublication(post);
+        setModalOpen(true);
+    };
+
+    // Función para cerrar el modal
+    const handleCloseModal = () => {
+        setModalOpen(false);
+        setSelectedPublication(null);
+    };
+
+    // Filtrar las publicaciones actuales
+    const currentDate = new Date();
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(currentDate.getDate() - 720); // Ajusta el número de días según tus necesidades
+
+    const currentPublications = publicaciones.filter((post) => {
+        const publicationDate = new Date(post.publicaciones_fecha);
+        return publicationDate >= thirtyDaysAgo;
+    });
+
+    return (
+        <section className="relative max-w-full">
+            <motion.h2
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="relative text-5xl font-montserrat font-extrabold text-primary text-center mb-8 uppercase tracking-wide drop-shadow-xl px-6 py-3 flex items-center justify-center"
+            >
+                {/* Líneas animadas - Izquierda */}
+                <motion.div
+                    initial={{ x: -20 }}
+                    animate={{ x: 20 }}
+                    transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }}
+                    className="w-12 h-1 bg-secondary rounded-full mr-3"
+                ></motion.div>
+
+                {/* Texto principal */}
+                <span className="relative z-10">ÚLTIMAS PUBLICACIONES</span>
+
+                {/* Líneas animadas - Derecha */}
+                <motion.div
+                    initial={{ x: 20 }}
+                    animate={{ x: -20 }}
+                    transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }}
+                    className="w-12 h-1 bg-secondary rounded-full ml-3"
+                ></motion.div>
+
+                {/* Fondo degradado decorativo */}
+                <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 via-transparent to-secondary/20 blur-lg opacity-50"></div>
+
+                {/* Línea decorativa principal */}
+                <span className="absolute bottom-[-8px] left-1/2 transform -translate-x-1/2 w-28 h-1 bg-primary rounded-full"></span>
+
+                {/* Subrayado animado más llamativo */}
+                <motion.span
+                    initial={{ width: '3rem' }}
+                    whileHover={{ width: '7rem' }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute bottom-[-12px] left-1/2 transform -translate-x-1/2 h-1 bg-secondary rounded-full"
+                ></motion.span>
+            </motion.h2>
+
+            <Swiper
+                modules={[Pagination, Navigation, Autoplay]}
+                spaceBetween={20}
+                slidesPerView={1}
+                breakpoints={{ 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }}
+                navigation
+                pagination={{ clickable: true }}
+                autoplay={{ delay: 5000 }}
+                className="w-full"
+            >
+                {currentPublications.length > 0 ? (
+                    currentPublications.map((post) => (
+                        <SwiperSlide key={post.publicaciones_id}>
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                onClick={() => handleOpenModal(post)}
+                                className="relative bg-white shadow-lg rounded-xl overflow-hidden p-6 border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer min-w-[30rem] min-h-[40rem]"
+                            >
+                                <Image
+                                    src={`https://serviciopagina.upea.bo/Publicaciones/${post.publicaciones_imagen}`}
+                                    alt={post.publicaciones_titulo}
+                                    width={400}
+                                    height={400}
+                                    className="rounded-lg w-full h-[450px] object-cover"
+                                    unoptimized
+                                />
+                                <h3 className="mt-4 font-semibold text-lg">{post.publicaciones_titulo}</h3>
+                                <p
+                                    className="text-sm text-gray-500"
+                                    dangerouslySetInnerHTML={{ __html: post.publicaciones_descripcion }}
+                                />
+                            </motion.div>
+                        </SwiperSlide>
+                    ))
+                ) : (
+                    <div className="flex flex-col items-center justify-center w-full col-span-3 mt-10">
+                        <Image
+                            src="/gifs/trabajando.gif"
+                            alt="Trabajando"
+                            width={300}
+                            height={300}
+                            className="mb-4"
+                        />
+                        <p className="text-center text-secondary text-lg font-semibold mt-6 bg-gray-100 border border-gray-300 rounded-lg p-4 shadow-md">
+                            Pronto nuevas publicaciones
+                        </p>
+                    </div>
+                )}
+            </Swiper>
+
+            {/* Modal */}
+            {modalOpen && selectedPublication && (
+                <Modal
+                    onClose={handleCloseModal}
+                    imageSrc={`https://serviciopagina.upea.bo/Publicaciones/${selectedPublication.publicaciones_imagen}`}
+                    title={selectedPublication.publicaciones_titulo}
+                >
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.3 }}
+                        className="p-6 bg-white rounded-lg shadow-lg"
+                    >
+                        <p
+                            className="text-gray-700"
+                            dangerouslySetInnerHTML={{
+                                __html: selectedPublication.publicaciones_descripcion,
+                            }}
+                        />
+                    </motion.div>
+                </Modal>
+            )}
+        </section>
+    );
+}

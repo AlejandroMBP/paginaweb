@@ -20,12 +20,23 @@ export default function EnlacesPage() {
         const fetchEnlaces = async () => {
             try {
                 const response = await fetch(
-                    'https://serviciopagina.upea.bo/api/linksIntExtAll/10'
+                    `${process.env.NEXT_PUBLIC_API_SERVICE}linksIntExtAll/${process.env.NEXT_PUBLIC_ID_INSTITUCION}`
                 );
                 if (!response.ok)
                     throw new Error(`Error HTTP: ${response.status}`);
                 const result = await response.json();
-                setEnlaces(result);
+
+                // Filtrar enlaces duplicados
+                const seenLinks = new Set();
+                const uniqueEnlaces = result.filter((enlace: Enlaces) => {
+                    if (!seenLinks.has(enlace.ei_link)) {
+                        seenLinks.add(enlace.ei_link);
+                        return true; // Mantener este enlace
+                    }
+                    return false; // Ignorar enlaces duplicados
+                });
+
+                setEnlaces(uniqueEnlaces);
             } catch (error) {
                 setEnlaces([]);
             } finally {
@@ -59,43 +70,79 @@ export default function EnlacesPage() {
             <div className="w-full h-1 bg-primary rounded-full"></div>
             {/* Sección de enlaces */}
             <section className="w-full max-w-6xl px-4 pb-16">
-                <h2 className="text-3xl font-semibold text-center text-primary mb-10">
-                    RECURSOS Y ENLACES
-                </h2>
+                <motion.h2
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="relative text-5xl font-montserrat font-extrabold text-primary text-center mb-8 uppercase tracking-wide drop-shadow-xl px-6 py-3 flex items-center justify-center"
+                >
+                    <motion.div initial={{ x: -20 }} animate={{ x: 20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full mr-3"></motion.div>
+                    <span className="relative z-10">Enlaces</span>
+                    <motion.div initial={{ x: 20 }} animate={{ x: -20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full ml-3"></motion.div>
+                </motion.h2>
+                <br />
                 {loading ? (
                     <p className="text-center text-gray-600">
                         Cargando enlaces...
                     </p>
                 ) : enlaces.length > 0 ? (
-                    <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+                    <div className="grid gap-16 sm:grid-cols-2 md:grid-cols-3">
                         {enlaces.map((enlace) => (
                             <motion.a
                                 key={enlace.ei_id}
                                 href={enlace.ei_link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="relative block bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 p-6 border border-gray-200 overflow-hidden"
+                                className="relative block group"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <div className="relative w-full h-40 overflow-hidden rounded-lg border border-white shadow-md">
+                                <motion.div
+                                    initial={{ scale: 1 }}
+                                    whileHover={{ scale: 1.1, y: -30 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="relative w-[17rem] h-[17rem] mx-auto overflow-hidden rounded-full border-4 border-primary shadow-lg"
+                                >
                                     <Image
-                                        src={`https://serviciopagina.upea.bo/InstitucionUpea/LinksExternos/${enlace.ei_imagen}`}
+                                        src={
+                                            enlace.ei_link === "http://repositorio.upea.bo/"
+                                                ? "/image/repositorioUniversitario.jpg"
+                                                : enlace.ei_link === "https://biblioteca.upea.bo/"
+                                                    ? "/image/hoha.webp"
+                                                    : `https://serviciopagina.upea.bo/InstitucionUpea/LinksExternos/${enlace.ei_imagen}`
+                                        }
                                         alt={enlace.ei_nombre}
                                         layout="fill"
                                         objectFit="cover"
+                                        className="rounded-full"
                                         unoptimized
+                                        onError={(e) => {
+                                            e.currentTarget.src = `https://serviciopagina.upea.bo/InstitucionUpea/LinksExternos/${enlace.ei_imagen}`;
+                                        }}
                                     />
-                                </div>
-                                <div className="mt-4 w-full text-center bg-white p-2 rounded-md shadow-md">
-                                    <h3 className="text-lg font-medium text-gray-900">
+                                    <motion.div
+                                        className="absolute inset-0 opacity-0 group-hover:opacity-50 transition-opacity duration-300"
+                                    />
+                                    <div className="absolute inset-0 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-b from-transparent to-secondary">
+                                        <motion.div
+                                            initial={{ x: -50 }}
+                                            animate={{ x: 0 }}
+                                            transition={{ duration: 0.5 }}
+                                            className="flex items-center"
+                                        >
+                                            <span className="text-white text-lg font-bold">Ir al enlace</span>
+                                            <motion.div
+                                                className="ml-2 w-4 h-4 bg-white rounded-full"
+                                                animate={{ scale: [1, 1.5, 1] }}
+                                                transition={{ duration: 0.5, repeat: Infinity }}
+                                            />
+                                        </motion.div>
+                                    </div>
+                                </motion.div>
+                                <div className="absolute bottom-0 left-0 right-0 bg-white p-4 rounded-t-md shadow-md mt-4">
+                                    <h3 className="text-lg font-medium text-primary text-center">
                                         {enlace.ei_nombre}
                                     </h3>
-                                </div>
-                                <div className="absolute inset-0 bg-primary bg-opacity-50 flex items-center justify-center opacity-0 transition-opacity duration-300 hover:opacity-100">
-                                    <span className="text-white text-lg font-semibold">
-                                        Ir al enlace de {enlace.ei_nombre}
-                                    </span>
                                 </div>
                             </motion.a>
                         ))}

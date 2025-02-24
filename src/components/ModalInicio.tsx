@@ -4,6 +4,7 @@ type ImageModalProps = {
     onClose: () => void;
     imageSrc: string;
     title: string;
+    children?: React.ReactNode;
 };
 
 export default function ImageModal({
@@ -29,7 +30,12 @@ export default function ImageModal({
                 </button>
 
                 {/* Imagen */}
-                <img src={imageSrc} alt={title} className="rounded-lg w-full" />
+                <img
+                    src={imageSrc}
+                    alt={title}
+                    className="rounded-lg max-w-full max-h-[80vh] object-contain mx-auto"
+                />
+
 
                 {/* Título */}
                 <h2 className="text-2xl font-bold text-primary mt-4">
