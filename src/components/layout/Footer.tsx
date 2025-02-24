@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import {
     FaFacebook,
@@ -183,20 +184,27 @@ export function Footer() {
                         </p>
                     )}
                 </div>
-
-                <div className="text-center md:text-right">
-                    <p className="text-gray-400 font-semibold text-sm hover:text-secondary transition">
-                        © {new Date().getFullYear()}{' '}
-                        <a
-                            href="#"
-                            className="text-gray-300 hover:text-secondary font-bold transition"
-                        >
-                            Dev - MABP
-                        </a>
-                        . <br />
-                        U-tic Todos los derechos reservados.
-                    </p>
+                <div>
+                    <Image
+                        src="./image/logo.jpeg"
+                        alt="logo de la carrera"
+                        width={100}
+                        height={100}
+                        unoptimized
+                    />
+                    <Image
+                        src="./image/uticAlt.webp"
+                        alt="logo de la carrera"
+                        width={100}
+                        height={100}
+                        unoptimized
+                    />
                 </div>
+            </div>
+            <div>
+                © {new Date().getFullYear()} <a href="#">Dev - MABP</a>
+                . <br />
+                U-tic Todos los derechos reservados.
             </div>
         </footer>
     );

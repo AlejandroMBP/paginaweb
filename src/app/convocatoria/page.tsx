@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Modal from '@/components/Modal';
 import { motion } from 'framer-motion';
+import { FaEye } from 'react-icons/fa';
 
 type Convocatoria = {
     idconvocatorias: number;
@@ -100,7 +101,7 @@ export default function InicioPage() {
                 <div className="grid md:grid-cols-3 gap-6">
                     {loading ? (
                         <p className="text-center col-span-3">
-                            Cargando gaceta...
+                            Cargando convocatorias...
                         </p>
                     ) : convocatorias.length > 0 ? (
                         convocatorias.map((convocatoria) => (
@@ -108,21 +109,37 @@ export default function InicioPage() {
                                 key={convocatoria.idconvocatorias}
                                 whileHover={{ scale: 1.05 }}
                                 onClick={() => handleOpenModal(convocatoria)}
-                                className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer flex flex-col items-center" // Cambios aquí
+                                className="relative bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer flex flex-col items-center group w-[450px] h-[550px]"
                             >
+                                {/* Imagen de la convocatoria */}
                                 <Image
                                     src={`https://serviciopagina.upea.bo/Convocatorias/${convocatoria.con_foto_portada}`}
                                     alt="Publicación"
                                     width={400}
                                     height={200}
-                                    className="rounded-lg mb-4" // Añadido margen inferior
+                                    className="rounded-lg mb-4 w-full h-[25rem] object-cover"
                                     unoptimized
                                 />
-                                <h3 className="font-semibold text-lg text-center">
-                                    {' '}
-                                    {/* Cambiado para centrar el texto */}
-                                    {convocatoria.con_titulo}
-                                </h3>
+
+                                {/* Efecto de Hover */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                                {/* Contenido en Hover */}
+                                <div className="absolute inset-0 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-95 transition-all duration-500">
+                                    <div className="flex flex-col items-center">
+                                        <FaEye className="w-12 h-12 text-primary" />
+                                        <h3 className="mt-2 text-lg font-semibold text-center">
+                                            VER CONVOCATORIA
+                                        </h3>
+                                    </div>
+                                </div>
+
+                                {/* Información de la Convocatoria */}
+                                <div>
+                                    <h3 className="font-semibold text-lg text-center text-primary">
+                                        {convocatoria.con_titulo}
+                                    </h3>
+                                </div>
                             </motion.div>
                         ))
                     ) : (

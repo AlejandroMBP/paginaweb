@@ -6,6 +6,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import Modal from './ModalInicio';
+import { Eye } from 'lucide-react';
 
 interface Publicaciones {
     publicaciones_id: number;
@@ -13,7 +14,7 @@ interface Publicaciones {
     publicaciones_tipo: string;
     publicaciones_imagen: string;
     publicaciones_descripcion: string;
-    publicaciones_fecha: string; // Cambiado a string para manejar la fecha como texto
+    publicaciones_fecha: string;
     publicaciones_autor: string;
     publicaciones_documento: string;
 }
@@ -22,10 +23,13 @@ interface PublicacionesSectionProps {
     publicaciones: Publicaciones[];
 }
 
-export default function PublicacionesSection({ publicaciones }: PublicacionesSectionProps) {
+export default function PublicacionesSection({
+    publicaciones,
+}: PublicacionesSectionProps) {
     // Estados para el modal
     const [modalOpen, setModalOpen] = useState(false);
-    const [selectedPublication, setSelectedPublication] = useState<Publicaciones | null>(null);
+    const [selectedPublication, setSelectedPublication] =
+        useState<Publicaciones | null>(null);
 
     // Función para abrir el modal
     const handleOpenModal = (post: Publicaciones) => {
@@ -61,7 +65,11 @@ export default function PublicacionesSection({ publicaciones }: PublicacionesSec
                 <motion.div
                     initial={{ x: -20 }}
                     animate={{ x: 20 }}
-                    transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }}
+                    transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        repeatType: 'reverse',
+                    }}
                     className="w-12 h-1 bg-secondary rounded-full mr-3"
                 ></motion.div>
 
@@ -72,7 +80,11 @@ export default function PublicacionesSection({ publicaciones }: PublicacionesSec
                 <motion.div
                     initial={{ x: 20 }}
                     animate={{ x: -20 }}
-                    transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }}
+                    transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        repeatType: 'reverse',
+                    }}
                     className="w-12 h-1 bg-secondary rounded-full ml-3"
                 ></motion.div>
 
@@ -95,7 +107,10 @@ export default function PublicacionesSection({ publicaciones }: PublicacionesSec
                 modules={[Pagination, Navigation, Autoplay]}
                 spaceBetween={20}
                 slidesPerView={1}
-                breakpoints={{ 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }}
+                breakpoints={{
+                    768: { slidesPerView: 2 },
+                    1024: { slidesPerView: 3 },
+                }}
                 navigation
                 pagination={{ clickable: true }}
                 autoplay={{ delay: 5000 }}
@@ -107,21 +122,57 @@ export default function PublicacionesSection({ publicaciones }: PublicacionesSec
                             <motion.div
                                 whileHover={{ scale: 1.05 }}
                                 onClick={() => handleOpenModal(post)}
-                                className="relative bg-white shadow-lg rounded-xl overflow-hidden p-6 border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer min-w-[30rem] min-h-[40rem]"
+                                className="relative bg-white shadow-lg rounded-xl overflow-hidden border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer min-w-[30rem] min-h-[40rem] flex flex-col"
                             >
-                                <Image
-                                    src={`https://serviciopagina.upea.bo/Publicaciones/${post.publicaciones_imagen}`}
-                                    alt={post.publicaciones_titulo}
-                                    width={400}
-                                    height={400}
-                                    className="rounded-lg w-full h-[450px] object-cover"
-                                    unoptimized
-                                />
-                                <h3 className="mt-4 font-semibold text-lg">{post.publicaciones_titulo}</h3>
-                                <p
-                                    className="text-sm text-gray-500"
-                                    dangerouslySetInnerHTML={{ __html: post.publicaciones_descripcion }}
-                                />
+                                {/* Contenedor de la imagen con grupo para hover */}
+                                <div className="relative w-full h-[450px] overflow-hidden rounded-t-xl">
+                                    <Image
+                                        src={`https://serviciopagina.upea.bo/Publicaciones/${post.publicaciones_imagen}`}
+                                        alt={post.publicaciones_titulo}
+                                        width={400}
+                                        height={400}
+                                        className="w-full h-full object-cover"
+                                        unoptimized
+                                    />
+
+                                    {/* Degradado animado sobre la imagen */}
+                                    <motion.div
+                                        initial={{ opacity: 0, y: '100%' }}
+                                        whileHover={{ opacity: 1, y: 0 }}
+                                        transition={{
+                                            duration: 0.5,
+                                            ease: 'easeOut',
+                                        }}
+                                        className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-80"
+                                    />
+
+                                    {/* Icono y texto "Click para abrir" */}
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileHover={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                        className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center"
+                                    >
+                                        <Eye className="w-12 h-12 text-primary mb-2" />
+
+                                        <span className="text-xl font-extrabold text-white uppercase tracking-wide">
+                                            CLICK PARA ABRIR
+                                        </span>
+                                    </motion.div>
+                                </div>
+
+                                {/* Contenido con título y descripción */}
+                                <div className="p-6 flex flex-col gap-3 flex-1">
+                                    <h3 className="font-semibold text-lg text-gray-900">
+                                        {post.publicaciones_titulo}
+                                    </h3>
+                                    <p
+                                        className="text-sm text-gray-600 leading-relaxed"
+                                        dangerouslySetInnerHTML={{
+                                            __html: post.publicaciones_descripcion,
+                                        }}
+                                    />
+                                </div>
                             </motion.div>
                         </SwiperSlide>
                     ))

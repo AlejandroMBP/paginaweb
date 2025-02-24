@@ -8,7 +8,10 @@ import PortadaSeccion from '@/components/portada';
 import HistoriaSection from '@/components/HistoriaSection';
 import ImageModal from '@/components/ModalInicio';
 export default function AboutPage() {
-    const [selectedImage, setSelectedImage] = useState<{ title: string; image: string } | null>(null);
+    const [selectedImage, setSelectedImage] = useState<{
+        title: string;
+        image: string;
+    } | null>(null);
 
     const cards = [
         {
@@ -31,7 +34,7 @@ export default function AboutPage() {
     return (
         <main className="flex flex-col items-center min-h-screen gap-12 px-4 sm:px-10 font-[family-name:var(--font-geist-sans)] bg-gray-100">
             <PortadaSeccion
-                titulo={"ACERCA DE NOSOTROS"}
+                titulo={'ACERCA DE NOSOTROS'}
                 subtitulo="Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional."
                 backgroundImage="/image/fondo.jpg"
             />
@@ -45,9 +48,27 @@ export default function AboutPage() {
                     transition={{ duration: 0.6 }}
                     className="relative text-5xl font-montserrat font-extrabold text-primary text-center mb-8 uppercase tracking-wide drop-shadow-xl px-6 py-3 flex items-center justify-center"
                 >
-                    <motion.div initial={{ x: -20 }} animate={{ x: 20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full mr-3"></motion.div>
+                    <motion.div
+                        initial={{ x: -20 }}
+                        animate={{ x: 20 }}
+                        transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                        }}
+                        className="w-12 h-1 bg-secondary rounded-full mr-3"
+                    ></motion.div>
                     <span className="relative z-10">NUESTRA FILOSOFÍA</span>
-                    <motion.div initial={{ x: 20 }} animate={{ x: -20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full ml-3"></motion.div>
+                    <motion.div
+                        initial={{ x: 20 }}
+                        animate={{ x: -20 }}
+                        transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                        }}
+                        className="w-12 h-1 bg-secondary rounded-full ml-3"
+                    ></motion.div>
                 </motion.h2>
 
                 <div className="flex justify-center gap-[20px] flex-wrap max-w-[2500px] mx-auto">
@@ -58,15 +79,28 @@ export default function AboutPage() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: index * 0.2 }}
                             className="relative bg-white rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 w-[400px] h-[300px] flex-shrink-0 group cursor-pointer"
-                            onClick={() => setSelectedImage({ title: card.title, image: card.image })}
+                            onClick={() =>
+                                setSelectedImage({
+                                    title: card.title,
+                                    image: card.image,
+                                })
+                            }
                         >
                             <div className="absolute inset-0 flex items-center justify-center bg-white">
-                                <Image src={card.image} alt={card.title} layout="fill" objectFit="contain" objectPosition="center" />
+                                <Image
+                                    src={card.image}
+                                    alt={card.title}
+                                    layout="fill"
+                                    objectFit="contain"
+                                    objectPosition="center"
+                                />
                             </div>
                             <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             <div className="absolute inset-0 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-10 transition-all duration-500">
                                 {card.icon}
-                                <h2 className="text-xl font-semibold mt-2">{card.title}</h2>
+                                <h2 className="text-xl font-semibold mt-2">
+                                    {card.title}
+                                </h2>
                             </div>
                         </motion.div>
                     ))}
@@ -83,14 +117,22 @@ export default function AboutPage() {
                 <motion.div
                     initial={{ x: -20 }}
                     animate={{ x: 20 }}
-                    transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }}
+                    transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        repeatType: 'reverse',
+                    }}
                     className="w-12 h-1 bg-secondary rounded-full mr-3"
                 />
                 <span className="relative z-10">NUESTRA HISTORIA</span>
                 <motion.div
                     initial={{ x: 20 }}
                     animate={{ x: -20 }}
-                    transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }}
+                    transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        repeatType: 'reverse',
+                    }}
                     className="w-12 h-1 bg-secondary rounded-full ml-3"
                 />
             </motion.h2>
@@ -104,7 +146,7 @@ export default function AboutPage() {
                     className="relative flex-shrink-0"
                 >
                     <Image
-                        src={"/image/logo.jpeg"}
+                        src={'/image/logo.jpeg'}
                         alt="Logo de la carrera"
                         width={350}
                         height={350}
@@ -116,7 +158,11 @@ export default function AboutPage() {
                         className="absolute inset-0 rounded-lg border-4 border-secondary opacity-30"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
+                        transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                        }}
                     />
                 </motion.div>
                 <HistoriaSection />

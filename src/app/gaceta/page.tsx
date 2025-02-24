@@ -2,11 +2,9 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-// Importar los estilos de react-pdf
-import "react-pdf/dist/esm/Page/TextLayer.css";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import 'react-pdf/dist/esm/Page/TextLayer.css';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-// Configurar el worker de PDF.js
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 type Gaceta = {
@@ -27,7 +25,8 @@ export default function InicioPage() {
                 const response = await fetch(
                     'https://serviciopagina.upea.bo/api/gacetaunivAll/10'
                 );
-                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+                if (!response.ok)
+                    throw new Error(`Error HTTP: ${response.status}`);
                 const result = await response.json();
                 setGaceta(result);
             } catch (error) {
@@ -42,7 +41,7 @@ export default function InicioPage() {
         const options: Intl.DateTimeFormatOptions = {
             year: 'numeric',
             month: 'long',
-            day: 'numeric'
+            day: 'numeric',
         };
         const date = new Date(dateString);
         return date.toLocaleDateString('es-ES', options); // Cambia 'es-ES' por el código de idioma que desees
@@ -61,7 +60,9 @@ export default function InicioPage() {
                     transition={{ duration: 0.8 }}
                     className="relative z-10 p-4 text-white"
                 >
-                    <h2 className="text-5xl font-bold drop-shadow-lg">GACETA</h2>
+                    <h2 className="text-5xl font-bold drop-shadow-lg">
+                        GACETA
+                    </h2>
                     <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-md">
                         Formación académica con enfoque en liderazgo,
                         emprendimiento y gestión organizacional.
@@ -86,7 +87,9 @@ export default function InicioPage() {
 
                 <div className="grid md:grid-cols-4 gap-6">
                     {loading ? (
-                        <p className="text-center col-span-3">Cargando gaceta...</p>
+                        <p className="text-center col-span-3">
+                            Cargando gaceta...
+                        </p>
                     ) : gacetas.length > 0 ? (
                         gacetas.map((gaceta) => (
                             <motion.div
@@ -100,7 +103,12 @@ export default function InicioPage() {
                                         file={`https://serviciopagina.upea.bo/Gaceta/${gaceta.gaceta_documento}`}
                                         loading="Cargando PDF..."
                                     >
-                                        <Page pageNumber={1} width={290} height={350} />
+                                        <Page
+                                            pageNumber={1}
+                                            renderTextLayer={false}
+                                            width={290}
+                                            height={350}
+                                        />
                                     </Document>
 
                                     <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
@@ -124,20 +132,30 @@ export default function InicioPage() {
                                         href={`https://serviciopagina.upea.bo/Gaceta/${gaceta.gaceta_documento}`}
                                         target="_blank"
                                     >
-                                        <h3 className="font-semibold text-lg text-primary truncate">{gaceta.gaceta_titulo}</h3>
+                                        <h3 className="font-semibold text-lg text-primary truncate">
+                                            {gaceta.gaceta_titulo}
+                                        </h3>
                                         <div className="space-y-1">
-                                            <p className="text-sm text-gray-600">{gaceta.gaceta_tipo}</p>
-                                            <p className="text-sm text-gray-600 ">{formatDate(gaceta.gaceta_fecha)}</p>
+                                            <p className="text-sm text-gray-600">
+                                                {gaceta.gaceta_tipo}
+                                            </p>
+                                            <p className="text-sm text-gray-600 ">
+                                                {formatDate(
+                                                    gaceta.gaceta_fecha
+                                                )}
+                                            </p>
                                         </div>
                                     </a>
                                 </div>
                             </motion.div>
                         ))
                     ) : (
-                        <p className="text-center col-span-3">No hay gaceta no disponible disponibles.</p>
+                        <p className="text-center col-span-3">
+                            No hay gaceta no disponible disponibles.
+                        </p>
                     )}
                 </div>
             </section>
-        </main >
+        </main>
     );
 }

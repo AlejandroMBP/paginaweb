@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Modal from '@/components/ModalInicio'; // Asegúrate de importar el componente Modal
-
+import { FaEye } from 'react-icons/fa';
 type PublicacionesApi = {
     publicaciones_id: number;
     publicaciones_titulo: string;
@@ -211,8 +211,8 @@ export default function InicioPage() {
                             <motion.div
                                 key={post.publicaciones_id}
                                 whileHover={{ scale: 1.05 }}
-                                className="bg-white shadow-xl rounded-3xl overflow-hidden p-6 border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer"
-                                onClick={() => openModal(post)} // Abre el modal al hacer clic
+                                className="bg-white shadow-xl rounded-3xl overflow-hidden p-6 border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer relative group"
+                                onClick={() => openModal(post)}
                             >
                                 <Image
                                     src={`https://serviciopagina.upea.bo/Publicaciones/${post.publicaciones_imagen}`}
@@ -222,6 +222,18 @@ export default function InicioPage() {
                                     className="rounded-lg"
                                     unoptimized
                                 />
+
+                                {/* Efecto de hover */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                                {/* Contenido en hover */}
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-10 transition-all duration-500">
+                                    <FaEye className="w-10 h-10 text-primary" />
+                                    <h3 className="mt-2 text-xl font-semibold text-center">
+                                        ABRIR <br /> {post.publicaciones_titulo}
+                                    </h3>
+                                </div>
+
                                 <h3 className="mt-4 text-xl font-semibold text-primary">
                                     {post.publicaciones_titulo}
                                 </h3>

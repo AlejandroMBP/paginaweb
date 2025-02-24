@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import ImageModal from '@/components/ModalInicio';
-
+import { FaEye } from 'react-icons/fa';
 type Eventos = {
     evento_id: number;
     evento_titulo: string;
@@ -26,8 +26,11 @@ export default function InicioPage() {
     useEffect(() => {
         const fetchEventos = async () => {
             try {
-                const response = await fetch('https://serviciopagina.upea.bo/api/eventoAll/10');
-                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+                const response = await fetch(
+                    'https://serviciopagina.upea.bo/api/eventoAll/10'
+                );
+                if (!response.ok)
+                    throw new Error(`Error HTTP: ${response.status}`);
                 const result = await response.json();
                 setEventos(result);
             } catch (error) {
@@ -66,9 +69,12 @@ export default function InicioPage() {
                     transition={{ duration: 0.8 }}
                     className="relative z-10 p-4 text-white"
                 >
-                    <h2 className="text-5xl font-bold drop-shadow-lg">EVENTOS</h2>
+                    <h2 className="text-5xl font-bold drop-shadow-lg">
+                        EVENTOS
+                    </h2>
                     <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow-md">
-                        Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional.
+                        Formación académica con enfoque en liderazgo,
+                        emprendimiento y gestión organizacional.
                     </p>
                 </motion.div>
             </section>
@@ -89,29 +95,62 @@ export default function InicioPage() {
 
                 <div className="grid md:grid-cols-3 gap-6">
                     {loading ? (
-                        <p className="text-center col-span-3">Cargando eventos...</p>
+                        <p className="text-center col-span-3">
+                            Cargando eventos...
+                        </p>
                     ) : eventos.length > 0 ? (
                         eventos.map((evento) => (
                             <motion.div
                                 key={evento.evento_id}
                                 whileHover={{ scale: 1.05 }}
-                                onClick={() => handleImageClick(`https://serviciopagina.upea.bo/Eventos/${evento.evento_imagen}`, evento.evento_titulo)}
-                                className="bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer"
+                                onClick={() =>
+                                    handleImageClick(
+                                        `https://serviciopagina.upea.bo/Eventos/${evento.evento_imagen}`,
+                                        evento.evento_titulo
+                                    )
+                                }
+                                className="relative bg-white shadow-xl rounded-3xl overflow-hidden border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer group transition-all duration-300 w-[400px] h-[500px] flex flex-col"
                             >
+                                {/* Imagen */}
                                 <Image
                                     src={`https://serviciopagina.upea.bo/Eventos/${evento.evento_imagen}`}
-                                    alt={evento.evento_titulo} // Cambié el alt para que sea más descriptivo
+                                    alt={evento.evento_titulo}
                                     width={400}
-                                    height={200}
-                                    className="rounded-lg"
+                                    height={600}
+                                    className="rounded-lg w-full h-[22rem] object-cover" // ⬅️ Hice la imagen más alta
                                     unoptimized
                                 />
-                                <h3 className="mt-4 font-semibold text-lg">{evento.evento_titulo}</h3>
-                                <p className="text-sm text-gray-500">{evento.evento_lugar}</p>
+
+                                {/* Efecto de hover */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                                {/* Contenido flotante en hover */}
+                                <div className="absolute inset-0 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-95 transition-all duration-500">
+                                    <div className="flex flex-col items-center">
+                                        <FaEye className="w-12 h-12 text-primary" />
+                                        <h3 className="mt-2 text-lg font-semibold text-center">
+                                            VER EVENTO
+                                        </h3>
+                                    </div>
+                                </div>
+
+                                {/* Información del evento (más abajo) */}
+                                <div className="p-6 mt-auto">
+                                    {' '}
+                                    {/* ⬅️ mt-auto empuja el contenido al fondo */}
+                                    <h3 className="font-semibold text-lg text-primary">
+                                        {evento.evento_titulo}
+                                    </h3>
+                                    <p className="text-sm text-gray-600">
+                                        {evento.evento_lugar}
+                                    </p>
+                                </div>
                             </motion.div>
                         ))
                     ) : (
-                        <p className="text-center col-span-3">No hay eventos disponibles.</p>
+                        <p className="text-center col-span-3">
+                            No hay eventos disponibles.
+                        </p>
                     )}
                 </div>
             </section>
