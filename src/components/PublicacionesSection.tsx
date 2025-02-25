@@ -54,7 +54,7 @@ export default function PublicacionesSection({
     });
 
     return (
-        <section className="relative max-w-full">
+        <section className="relative max-w-full px-4 md:px-8">
             <motion.h2
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}

@@ -2,8 +2,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Menu, ChevronDown, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
@@ -17,8 +15,6 @@ type Links = {
 
 export function Navbar() {
     const pathname = usePathname();
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [submenuOpen, setSubmenuOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [enlaces, setEnlaces] = useState<Links[]>([]);
 
@@ -74,11 +70,13 @@ export function Navbar() {
                         <Link
                             key={item.href}
                             href={item.href}
-                            className={`relative transition-all duration-200 ease-in-out hover:scale-105 ${
-                                pathname === item.href
-                                    ? 'text-primary font-semibold '
+                            className={`relative transition-all duration-200 ease-in-out hover:scale-105 
+                                ${pathname === item.href
+                                    ? 'text-primary font-semibold'
                                     : 'hover:text-primary'
-                            }`}
+                                }
+                                after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 after:ease-in-out hover:after:w-full
+                            `}
                         >
                             {item.label}
                         </Link>

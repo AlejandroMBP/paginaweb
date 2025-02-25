@@ -5,6 +5,8 @@ import './globals.css';
 import { Footer } from '@/components/layout/Footer';
 import { Navbar } from '@/components/layout/Navbar';
 import { Acreditacion } from '@/components/Acreditacion';
+import Preloader from '@/components/layout/preloader';
+import ScrollToTopButton from '@/components/layout/ScrollToTop';
 const montserrat = Montserrat({
     subsets: ['latin'],
     weight: ['400', '700'],
@@ -37,10 +39,13 @@ export default function RootLayout({
             <body
                 className={`${montserrat.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                <Navbar />
-                <Acreditacion />
-                {children}
-                <Footer />
+                <Preloader>
+                    <Navbar />
+                    <Acreditacion />
+                    {children}
+                    <ScrollToTopButton />
+                    <Footer />
+                </Preloader>
             </body>
         </html>
     );
