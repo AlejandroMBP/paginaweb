@@ -55,11 +55,13 @@ export default function EnlacesPage() {
             <main className="flex flex-col items-center min-h-screen gap-16 bg-gray-100">
                 {/* Sección de encabezado */}
                 <PortadaSeccion
-                    titulo={'ENLACES'}
+                    titulo={'NUESTRAS PLATAFORMAS'}
                     subtitulo="Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional."
-                    backgroundImage="/image/fondo.jpg"
                 />
-                <div id="next-section" className="w-full h-1 bg-primary rounded-full"></div>
+                <div
+                    id="next-section"
+                    className="w-full h-1 bg-primary rounded-full"
+                ></div>
                 {/* Sección de enlaces */}
                 <section className="w-full max-w-6xl px-4 pb-16">
                     <motion.h2
@@ -68,9 +70,27 @@ export default function EnlacesPage() {
                         transition={{ duration: 0.6 }}
                         className="relative text-5xl font-montserrat font-extrabold text-primary text-center mb-8 uppercase tracking-wide drop-shadow-xl px-6 py-3 flex items-center justify-center"
                     >
-                        <motion.div initial={{ x: -20 }} animate={{ x: 20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full mr-3"></motion.div>
-                        <span className="relative z-10">Enlaces</span>
-                        <motion.div initial={{ x: 20 }} animate={{ x: -20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full ml-3"></motion.div>
+                        <motion.div
+                            initial={{ x: -20 }}
+                            animate={{ x: 20 }}
+                            transition={{
+                                duration: 0.8,
+                                repeat: Infinity,
+                                repeatType: 'reverse',
+                            }}
+                            className="w-12 h-1 bg-secondary rounded-full mr-3"
+                        ></motion.div>
+                        <span className="relative z-10">PLATAFORMAS</span>
+                        <motion.div
+                            initial={{ x: 20 }}
+                            animate={{ x: -20 }}
+                            transition={{
+                                duration: 0.8,
+                                repeat: Infinity,
+                                repeatType: 'reverse',
+                            }}
+                            className="w-12 h-1 bg-secondary rounded-full ml-3"
+                        ></motion.div>
                     </motion.h2>
                     <br />
                     {loading ? (
@@ -97,11 +117,13 @@ export default function EnlacesPage() {
                                     >
                                         <Image
                                             src={
-                                                enlace.ei_link === "http://repositorio.upea.bo/"
-                                                    ? "/image/repositorioUniversitario.jpg"
-                                                    : enlace.ei_link === "https://biblioteca.upea.bo/"
-                                                        ? "/image/hoha.webp"
-                                                        : `https://serviciopagina.upea.bo/InstitucionUpea/LinksExternos/${enlace.ei_imagen}`
+                                                enlace.ei_link ===
+                                                'http://repositorio.upea.bo/'
+                                                    ? '/image/repositorioUniversitario.jpg'
+                                                    : enlace.ei_link ===
+                                                      'https://biblioteca.upea.bo/'
+                                                    ? '/image/hoha.webp'
+                                                    : `https://serviciopagina.upea.bo/InstitucionUpea/LinksExternos/${enlace.ei_imagen}`
                                             }
                                             alt={enlace.ei_nombre}
                                             layout="fill"
@@ -112,9 +134,7 @@ export default function EnlacesPage() {
                                                 e.currentTarget.src = `https://serviciopagina.upea.bo/InstitucionUpea/LinksExternos/${enlace.ei_imagen}`;
                                             }}
                                         />
-                                        <motion.div
-                                            className="absolute inset-0 opacity-0 group-hover:opacity-50 transition-opacity duration-300"
-                                        />
+                                        <motion.div className="absolute inset-0 opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
                                         <div className="absolute inset-0 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-b from-transparent to-secondary">
                                             <motion.div
                                                 initial={{ x: -50 }}
@@ -122,11 +142,18 @@ export default function EnlacesPage() {
                                                 transition={{ duration: 0.5 }}
                                                 className="flex items-center"
                                             >
-                                                <span className="text-white text-lg font-bold">Ir al enlace</span>
+                                                <span className="text-white text-lg font-bold">
+                                                    Ir al enlace
+                                                </span>
                                                 <motion.div
                                                     className="ml-2 w-4 h-4 bg-white rounded-full"
-                                                    animate={{ scale: [1, 1.5, 1] }}
-                                                    transition={{ duration: 0.5, repeat: Infinity }}
+                                                    animate={{
+                                                        scale: [1, 1.5, 1],
+                                                    }}
+                                                    transition={{
+                                                        duration: 0.5,
+                                                        repeat: Infinity,
+                                                    }}
                                                 />
                                             </motion.div>
                                         </div>

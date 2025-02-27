@@ -33,19 +33,32 @@ export function useInicioData() {
     const [direccion, setDireccion] = useState('Cargando...');
     const [publicaciones, setPublicaciones] = useState<Publicaciones[]>([]);
     const [modalOpen, setModalOpen] = useState(false);
-    const [selectedPublication, setSelectedPublication] = useState<Publicaciones | null>(null);
+    const [selectedPublication, setSelectedPublication] =
+        useState<Publicaciones | null>(null);
 
     useEffect(() => {
         const fetchInstitucion = async () => {
             try {
-                const response = await fetch('https://serviciopagina.upea.bo/api/InstitucionUPEA/10');
-                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+                const response = await fetch(
+                    'https://serviciopagina.upea.bo/api/InstitucionUPEA/10'
+                );
+                if (!response.ok)
+                    throw new Error(`Error HTTP: ${response.status}`);
                 const result = await response.json();
                 console.log('Respuesta de la API1:', result);
                 setData(result);
-                setInstitucionNombre(result?.Descripcion?.institucion_nombre || 'Nombre no disponible');
-                setmapsUbicacion(result?.Descripcion?.institucion_api_google_map || 'https://www.google.com/maps/embed?...');
-                setDireccion(result?.Descripcion?.institucion_direccion || 'Direccion no definida');
+                setInstitucionNombre(
+                    result?.Descripcion?.institucion_nombre ||
+                        'Nombre no disponible'
+                );
+                setmapsUbicacion(
+                    result?.Descripcion?.institucion_api_google_map ||
+                        'https://www.google.com/maps/embed?...'
+                );
+                setDireccion(
+                    result?.Descripcion?.institucion_direccion ||
+                        'Direccion no definida'
+                );
             } catch (error) {
                 console.error('Error al obtener datos', error);
                 setInstitucionNombre('Carrera no disponible');
@@ -58,8 +71,11 @@ export function useInicioData() {
 
         const fetchPublicaciones = async () => {
             try {
-                const response = await fetch('https://serviciopagina.upea.bo/api/publicacionesAll/10');
-                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+                const response = await fetch(
+                    'https://serviciopagina.upea.bo/api/publicacionesAll/10'
+                );
+                if (!response.ok)
+                    throw new Error(`Error HTTP: ${response.status}`);
                 const result = await response.json();
                 console.log('Respuesta de la API:', result);
                 setPublicaciones(result);

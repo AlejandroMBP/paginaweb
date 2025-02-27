@@ -55,23 +55,44 @@ export default function InicioPage() {
                 <PortadaSeccion
                     titulo={'GACETA'}
                     subtitulo="Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional."
-                    backgroundImage="/image/fondo.jpg"
                 />
                 {/* Separador decorativo */}
-                <div id="next-section" className="w-full h-1 bg-primary rounded-full"></div>
+                <div
+                    id="next-section"
+                    className="w-full h-1 bg-primary rounded-full"
+                ></div>
 
                 {/* Sección 2: Últimas Publicaciones */}
                 <section className="relative max-w-full">
-
                     <motion.h2
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                         className="relative text-5xl font-montserrat font-extrabold text-primary text-center mb-8 uppercase tracking-wide drop-shadow-xl px-6 py-3 flex items-center justify-center"
                     >
-                        <motion.div initial={{ x: -20 }} animate={{ x: 20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full mr-3"></motion.div>
-                        <span className="relative z-10">LO ÚLTIMO DE LAS PUBLICACIONES DE LA GACETA</span>
-                        <motion.div initial={{ x: 20 }} animate={{ x: -20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full ml-3"></motion.div>
+                        <motion.div
+                            initial={{ x: -20 }}
+                            animate={{ x: 20 }}
+                            transition={{
+                                duration: 0.8,
+                                repeat: Infinity,
+                                repeatType: 'reverse',
+                            }}
+                            className="w-12 h-1 bg-secondary rounded-full mr-3"
+                        ></motion.div>
+                        <span className="relative z-10">
+                            LO ÚLTIMO DE LAS PUBLICACIONES DE LA GACETA
+                        </span>
+                        <motion.div
+                            initial={{ x: 20 }}
+                            animate={{ x: -20 }}
+                            transition={{
+                                duration: 0.8,
+                                repeat: Infinity,
+                                repeatType: 'reverse',
+                            }}
+                            className="w-12 h-1 bg-secondary rounded-full ml-3"
+                        ></motion.div>
                     </motion.h2>
                     <div className="grid md:grid-cols-4 gap-6">
                         {loading ? (

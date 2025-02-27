@@ -12,18 +12,31 @@ import Preloader from '@/components/layout/preloader';
 
 export default function InicioPage() {
     const {
-        institucionNombre, data, loading, mapsUbicacion, direccion, publicaciones } = useInicioData();
+        institucionNombre,
+        data,
+        loading,
+        mapsUbicacion,
+        direccion,
+        publicaciones,
+    } = useInicioData();
+
     return (
         <Preloader>
             <main className="flex flex-col items-center min-h-screen gap-16 font-[family-name:var(--font-geist-sans)] bg-gray-100">
                 {/* Sección 1: Título */}
                 <PortadaSeccion
-                    titulo={loading ? 'Cargando...' : institucionNombre.toUpperCase()}
+                    titulo={
+                        loading
+                            ? 'Cargando...'
+                            : institucionNombre.toUpperCase()
+                    }
                     subtitulo="Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional."
-                    backgroundImage="/image/fondo.jpg"
                 />
                 {/* Separador decorativo */}
-                <div id="next-section" className="w-full h-1 bg-primary rounded-full mb-6"></div>
+                <div
+                    id="next-section"
+                    className="w-full h-1 bg-primary rounded-full mb-6"
+                ></div>
 
                 {/* Sección 2: Últimas Publicaciones */}
                 <PublicacionesSection publicaciones={publicaciones} />
@@ -33,7 +46,9 @@ export default function InicioPage() {
 
                 {/* Sección 3: Autoridades */}
                 {data?.Descripcion?.autoridad ? (
-                    <AutoridadesSection autoridades={data.Descripcion.autoridad} />
+                    <AutoridadesSection
+                        autoridades={data.Descripcion.autoridad}
+                    />
                 ) : (
                     <p className="text-center text-gray-500 text-lg font-semibold mt-6">
                         Cargando autoridad...
@@ -41,7 +56,7 @@ export default function InicioPage() {
                 )}
 
                 {/* Separador decorativo */}
-                <Separador color='bg-primary' height='h-1' />
+                <Separador color="bg-primary" height="h-1" />
 
                 {/* Sección 4: Ubicación */}
                 <UbicacionSection
@@ -49,7 +64,6 @@ export default function InicioPage() {
                     direccion={direccion}
                     loading={false}
                 />
-
             </main>
         </Preloader>
     );

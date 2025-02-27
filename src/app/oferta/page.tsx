@@ -16,9 +16,9 @@ import PortadaSeccion from '@/components/portada';
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 const documentos = [
-    { file: "/documentos/titulacionCAE.pdf", title: "Datos de titulación CAE" },
-    { file: "/documentos/mallaCurricular.pdf", title: "Malla Curricular" },
-    { file: "/documentos/planDeEstudios.pdf", title: "Plan de Estudios" },
+    { file: '/documentos/titulacionCAE.pdf', title: 'Datos de titulación CAE' },
+    { file: '/documentos/mallaCurricular.pdf', title: 'Malla Curricular' },
+    { file: '/documentos/planDeEstudios.pdf', title: 'Plan de Estudios' },
 ];
 type OfertasAcademicas = {
     ofertas_id: number;
@@ -69,9 +69,11 @@ export default function InicioPage() {
                 <PortadaSeccion
                     titulo={'OFERTAS ACADÉMICAS'}
                     subtitulo="Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional."
-                    backgroundImage="/image/fondo.jpg"
                 />
-                <div id='next-section' className="w-full h-1 bg-primary rounded-full"></div>
+                <div
+                    id="next-section"
+                    className="w-full h-1 bg-primary rounded-full"
+                ></div>
                 <div>
                     <motion.h2
                         initial={{ opacity: 0, y: 10 }}
@@ -79,9 +81,29 @@ export default function InicioPage() {
                         transition={{ duration: 0.6 }}
                         className="relative text-5xl font-montserrat font-extrabold text-primary text-center mb-8 uppercase tracking-wide drop-shadow-xl px-6 py-3 flex items-center justify-center"
                     >
-                        <motion.div initial={{ x: -20 }} animate={{ x: 20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full mr-3"></motion.div>
-                        <span className="relative z-10">DOCUMENTOS IMPORTANTES</span>
-                        <motion.div initial={{ x: 20 }} animate={{ x: -20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full ml-3"></motion.div>
+                        <motion.div
+                            initial={{ x: -20 }}
+                            animate={{ x: 20 }}
+                            transition={{
+                                duration: 0.8,
+                                repeat: Infinity,
+                                repeatType: 'reverse',
+                            }}
+                            className="w-12 h-1 bg-secondary rounded-full mr-3"
+                        ></motion.div>
+                        <span className="relative z-10">
+                            DOCUMENTOS IMPORTANTES
+                        </span>
+                        <motion.div
+                            initial={{ x: 20 }}
+                            animate={{ x: -20 }}
+                            transition={{
+                                duration: 0.8,
+                                repeat: Infinity,
+                                repeatType: 'reverse',
+                            }}
+                            className="w-12 h-1 bg-secondary rounded-full ml-3"
+                        ></motion.div>
                     </motion.h2>
                 </div>
 
@@ -92,7 +114,7 @@ export default function InicioPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        transition={{ duration: 0.5, ease: 'easeInOut' }}
                         className="flex-1 bg-white shadow-lg rounded-xl p-6 border border-gray-200 relative overflow-hidden"
                     >
                         <h3 className="text-lg font-semibold text-primary text-center mb-4 uppercase">
@@ -104,10 +126,11 @@ export default function InicioPage() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-
                                 <Document
                                     file={selectedDocument.file}
-                                    onLoadError={() => setError("No se pudo cargar el PDF")}
+                                    onLoadError={() =>
+                                        setError('No se pudo cargar el PDF')
+                                    }
                                     className="flex justify-center"
                                 >
                                     {error ? (
@@ -121,9 +144,15 @@ export default function InicioPage() {
                                         </motion.p>
                                     ) : (
                                         <motion.div
-                                            initial={{ opacity: 0, scale: 0.95 }}
+                                            initial={{
+                                                opacity: 0,
+                                                scale: 0.95,
+                                            }}
                                             animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ duration: 0.5, ease: "easeOut" }}
+                                            transition={{
+                                                duration: 0.5,
+                                                ease: 'easeOut',
+                                            }}
                                             className="relative"
                                         >
                                             {/* Página del PDF */}
@@ -138,10 +167,10 @@ export default function InicioPage() {
                                             <div className="absolute inset-0 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-10 transition-all duration-500 bg-gradient-to-t from-secondary to-transparent rounded-lg">
                                                 <FaEye className="w-10 h-10 text-primary" />
                                                 <h3 className="mt-2 text-xl font-semibold text-center">
-                                                    ABRIR <br /> {selectedDocument.title}
+                                                    ABRIR <br />{' '}
+                                                    {selectedDocument.title}
                                                 </h3>
                                                 {/* Botón para ver el PDF completo */}
-
                                             </div>
                                         </motion.div>
                                     )}
@@ -161,10 +190,11 @@ export default function InicioPage() {
                                     key={doc.title}
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className={`cursor-pointer p-3 rounded-lg text-center transition-all duration-300 ${selectedDocument.title === doc.title
-                                        ? "bg-primary text-white"
-                                        : "bg-gray-100 hover:bg-gray-200"
-                                        }`}
+                                    className={`cursor-pointer p-3 rounded-lg text-center transition-all duration-300 ${
+                                        selectedDocument.title === doc.title
+                                            ? 'bg-primary text-white'
+                                            : 'bg-gray-100 hover:bg-gray-200'
+                                    }`}
                                     onClick={() => setSelectedDocument(doc)}
                                 >
                                     {doc.title}
@@ -173,7 +203,6 @@ export default function InicioPage() {
                         </ul>
                     </div>
                 </section>
-
 
                 <div className="w-full h-1 bg-primary rounded-full"></div>
                 {/* Sección 2: Últimas Publicaciones */}
@@ -184,9 +213,29 @@ export default function InicioPage() {
                         transition={{ duration: 0.6 }}
                         className="relative text-5xl font-montserrat font-extrabold text-primary text-center mb-8 uppercase tracking-wide drop-shadow-xl px-6 py-3 flex items-center justify-center"
                     >
-                        <motion.div initial={{ x: -20 }} animate={{ x: 20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full mr-3"></motion.div>
-                        <span className="relative z-10">LO ÚLTIMO DE LAS OFERTAS ACADÉMICAS</span>
-                        <motion.div initial={{ x: 20 }} animate={{ x: -20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full ml-3"></motion.div>
+                        <motion.div
+                            initial={{ x: -20 }}
+                            animate={{ x: 20 }}
+                            transition={{
+                                duration: 0.8,
+                                repeat: Infinity,
+                                repeatType: 'reverse',
+                            }}
+                            className="w-12 h-1 bg-secondary rounded-full mr-3"
+                        ></motion.div>
+                        <span className="relative z-10">
+                            LO ÚLTIMO DE LAS OFERTAS ACADÉMICAS
+                        </span>
+                        <motion.div
+                            initial={{ x: 20 }}
+                            animate={{ x: -20 }}
+                            transition={{
+                                duration: 0.8,
+                                repeat: Infinity,
+                                repeatType: 'reverse',
+                            }}
+                            className="w-12 h-1 bg-secondary rounded-full ml-3"
+                        ></motion.div>
                     </motion.h2>
                     <div className="grid md:grid-cols-3 gap-6">
                         {loading ? (
@@ -249,6 +298,6 @@ export default function InicioPage() {
                     />
                 )}
             </main>
-        </Preloader >
+        </Preloader>
     );
 }

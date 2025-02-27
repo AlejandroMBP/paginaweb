@@ -59,17 +59,17 @@ export default function InicioPage() {
         selectedCategory === 'todas'
             ? publiPagina
             : selectedCategory === 'otros'
-                ? publiPagina.filter(
-                    (publi) =>
-                        !categoriasDefinidas.includes(
-                            publi.publicaciones_tipo.toLowerCase()
-                        )
-                )
-                : publiPagina.filter(
-                    (publi) =>
-                        publi.publicaciones_tipo.toLowerCase() ===
-                        selectedCategory
-                );
+            ? publiPagina.filter(
+                  (publi) =>
+                      !categoriasDefinidas.includes(
+                          publi.publicaciones_tipo.toLowerCase()
+                      )
+              )
+            : publiPagina.filter(
+                  (publi) =>
+                      publi.publicaciones_tipo.toLowerCase() ===
+                      selectedCategory
+              );
 
     // Función para abrir el modal
     const openModal = (publication: PublicacionesApi) => {
@@ -89,30 +89,40 @@ export default function InicioPage() {
                 <PortadaSeccion
                     titulo={'PUBLICACIONES'}
                     subtitulo="Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional."
-                    backgroundImage="/image/fondo.jpg"
                 />
-                <div id="next-section" className="w-full h-1 bg-primary rounded-full mb-6"></div>
+                <div
+                    id="next-section"
+                    className="w-full h-1 bg-primary rounded-full mb-6"
+                ></div>
 
                 <section className="relative max-w-full">
                     <div className="w-full flex justify-center">
                         <nav className="sticky top-20 z-40 inline-flex justify-center space-x-4 flex-wrap mb-6 bg-white px-4 md:px-6 lg:px-8 py-4 rounded-lg shadow-md transition-all duration-300">
-                            {['todas', ...categoriasDefinidas, 'otros'].map((category) => (
-                                <motion.button
-                                    key={category}
-                                    onClick={() => setSelectedCategory(category.toLowerCase())}
-                                    className={`text-lg font-semibold px-6 py-3 rounded-full transition-all duration-300 ease-in-out ${selectedCategory === category.toLowerCase()
-                                            ? 'bg-primary text-white shadow-lg scale-105'
-                                            : 'bg-white text-secondary hover:bg-primary hover:text-white hover:shadow-2xl hover:scale-105'
+                            {['todas', ...categoriasDefinidas, 'otros'].map(
+                                (category) => (
+                                    <motion.button
+                                        key={category}
+                                        onClick={() =>
+                                            setSelectedCategory(
+                                                category.toLowerCase()
+                                            )
+                                        }
+                                        className={`text-lg font-semibold px-6 py-3 rounded-full transition-all duration-300 ease-in-out ${
+                                            selectedCategory ===
+                                            category.toLowerCase()
+                                                ? 'bg-primary text-white shadow-lg scale-105'
+                                                : 'bg-white text-secondary hover:bg-primary hover:text-white hover:shadow-2xl hover:scale-105'
                                         }`}
-                                    whileHover={{ scale: 1.1 }}
-                                    whileTap={{ scale: 0.95 }}
-                                >
-                                    {category.charAt(0).toUpperCase() + category.slice(1)}
-                                </motion.button>
-                            ))}
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        {category.charAt(0).toUpperCase() +
+                                            category.slice(1)}
+                                    </motion.button>
+                                )
+                            )}
                         </nav>
                     </div>
-
 
                     <motion.h2
                         initial={{ opacity: 0, y: 10 }}
@@ -172,7 +182,9 @@ export default function InicioPage() {
                         {/* Borde resplandeciente */}
                         <motion.div
                             initial={{ borderColor: 'transparent' }}
-                            whileHover={{ borderColor: 'rgba(255, 255, 255, 0.5)' }}
+                            whileHover={{
+                                borderColor: 'rgba(255, 255, 255, 0.5)',
+                            }}
                             transition={{ duration: 0.5 }}
                             className="absolute inset-0 border-2 border-transparent rounded-lg"
                         ></motion.div>
@@ -219,7 +231,8 @@ export default function InicioPage() {
                                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-10 transition-all duration-500">
                                         <FaEye className="w-10 h-10 text-primary" />
                                         <h3 className="mt-2 text-xl font-semibold text-center">
-                                            ABRIR <br /> {post.publicaciones_titulo}
+                                            ABRIR <br />{' '}
+                                            {post.publicaciones_titulo}
                                         </h3>
                                     </div>
 

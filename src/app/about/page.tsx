@@ -38,10 +38,12 @@ export default function AboutPage() {
                 <PortadaSeccion
                     titulo={'ACERCA DE NOSOTROS'}
                     subtitulo="Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional."
-                    backgroundImage="/image/fondo.jpg"
                 />
 
-                <div id="next-section" className="w-full h-1 bg-primary rounded-full"></div>
+                <div
+                    id="next-section"
+                    className="w-full h-1 bg-primary rounded-full"
+                ></div>
 
                 <section className="max-w-7xl mx-auto text-center">
                     <motion.h2
@@ -79,7 +81,10 @@ export default function AboutPage() {
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: index * 0.2 }}
+                                transition={{
+                                    duration: 0.6,
+                                    delay: index * 0.2,
+                                }}
                                 className="relative bg-white rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 w-[400px] h-[300px] flex-shrink-0 group cursor-pointer"
                                 onClick={() =>
                                     setSelectedImage({
@@ -177,6 +182,6 @@ export default function AboutPage() {
                     />
                 )}
             </main>
-        </Preloader >
+        </Preloader>
     );
 }
