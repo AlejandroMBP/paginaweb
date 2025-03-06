@@ -64,6 +64,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, convocatoria }) => {
                         dangerouslySetInnerHTML={{
                             __html: convocatoria.con_descripcion,
                         }}
+                    />{' '}
+                    <p
+                        className=""
+                        dangerouslySetInnerHTML={{
+                            __html: convocatoria.con_descripcion,
+                        }}
                     />
                     <div className="flex justify-center md:justify-end mt-4">
                         <button

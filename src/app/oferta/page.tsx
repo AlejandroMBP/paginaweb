@@ -20,6 +20,7 @@ const documentos = [
     { file: '/documentos/mallaCurricular.pdf', title: 'Malla Curricular' },
     { file: '/documentos/planDeEstudios.pdf', title: 'Plan de Estudios' },
 ];
+
 type OfertasAcademicas = {
     ofertas_id: number;
     ofertas_titulo: string;

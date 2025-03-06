@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { Menu, X } from 'lucide-react';
 
 type Links = {
     ei_id: number;
@@ -17,6 +18,7 @@ export function Navbar() {
     const pathname = usePathname();
     const [loading, setLoading] = useState(true);
     const [enlaces, setEnlaces] = useState<Links[]>([]);
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         const fetchEnlaces = async () => {
@@ -65,18 +67,59 @@ export function Navbar() {
                     />
                 </Link>
 
+                {/* Menú para pantallas grandes */}
                 <div className="hidden md:flex gap-8 text-lg text-secondary">
                     {navLinks.map((item) => (
                         <Link
                             key={item.href}
                             href={item.href}
                             className={`relative transition-all duration-200 ease-in-out hover:scale-105 
-                                ${pathname === item.href
-                                    ? 'text-primary font-semibold'
-                                    : 'hover:text-primary'
+                                ${
+                                    pathname === item.href
+                                        ? 'text-primary font-semibold'
+                                        : 'hover:text-primary'
                                 }
                                 after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 after:ease-in-out hover:after:w-full
                             `}
+                        >
+                            {item.label}
+                        </Link>
+                    ))}
+                </div>
+
+                {/* Botón menú hamburguesa */}
+                <button
+                    className="md:hidden p-2 rounded-md text-secondary hover:text-primary focus:outline-none"
+                    onClick={() => setIsOpen(!isOpen)}
+                >
+                    {isOpen ? <X size={28} /> : <Menu size={28} />}
+                </button>
+            </div>
+
+            {/* Menú móvil */}
+            <div
+                className={`md:hidden fixed top-0 left-0 w-full h-full bg-white/95 backdrop-blur-lg z-40 flex flex-col items-center justify-center transition-transform duration-300 ease-in-out ${
+                    isOpen ? 'translate-y-0' : '-translate-y-full'
+                }`}
+            >
+                <button
+                    className="absolute top-5 right-5 p-2 text-secondary hover:text-primary"
+                    onClick={() => setIsOpen(false)}
+                >
+                    <X size={32} />
+                </button>
+                <div className="flex flex-col gap-6 text-xl text-secondary">
+                    {navLinks.map((item) => (
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`text-2xl font-medium transition-all duration-200 ease-in-out hover:scale-110 
+                                ${
+                                    pathname === item.href
+                                        ? 'text-primary font-bold'
+                                        : 'hover:text-primary'
+                                }`}
+                            onClick={() => setIsOpen(false)}
                         >
                             {item.label}
                         </Link>

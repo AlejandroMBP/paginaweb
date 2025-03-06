@@ -73,7 +73,10 @@ export default function InicioPage() {
                 />
 
                 {/* Separador decorativo */}
-                <div id="next-section" className="w-full h-1 bg-primary rounded-full"></div>
+                <div
+                    id="next-section"
+                    className="w-full h-1 bg-primary rounded-full"
+                ></div>
                 {/* Sección 2: Últimas Publicaciones */}
                 <section className="relative max-w-full">
                     <motion.h2
@@ -82,9 +85,29 @@ export default function InicioPage() {
                         transition={{ duration: 0.6 }}
                         className="relative text-5xl font-montserrat font-extrabold text-primary text-center mb-8 uppercase tracking-wide drop-shadow-xl px-6 py-3 flex items-center justify-center"
                     >
-                        <motion.div initial={{ x: -20 }} animate={{ x: 20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full mr-3"></motion.div>
-                        <span className="relative z-10">CONVOCATORIAS DE LA CARRERA</span>
-                        <motion.div initial={{ x: 20 }} animate={{ x: -20 }} transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }} className="w-12 h-1 bg-secondary rounded-full ml-3"></motion.div>
+                        <motion.div
+                            initial={{ x: -20 }}
+                            animate={{ x: 20 }}
+                            transition={{
+                                duration: 0.8,
+                                repeat: Infinity,
+                                repeatType: 'reverse',
+                            }}
+                            className="w-12 h-1 bg-secondary rounded-full mr-3"
+                        ></motion.div>
+                        <span className="relative z-10">
+                            CONVOCATORIAS DE LA CARRERA
+                        </span>
+                        <motion.div
+                            initial={{ x: 20 }}
+                            animate={{ x: -20 }}
+                            transition={{
+                                duration: 0.8,
+                                repeat: Infinity,
+                                repeatType: 'reverse',
+                            }}
+                            className="w-12 h-1 bg-secondary rounded-full ml-3"
+                        ></motion.div>
                     </motion.h2>
 
                     <div className="grid md:grid-cols-3 gap-6">
@@ -97,7 +120,9 @@ export default function InicioPage() {
                                 <motion.div
                                     key={convocatoria.idconvocatorias}
                                     whileHover={{ scale: 1.05 }}
-                                    onClick={() => handleOpenModal(convocatoria)}
+                                    onClick={() =>
+                                        handleOpenModal(convocatoria)
+                                    }
                                     className="relative bg-white shadow-lg rounded-xl overflow-hidden p-6 transition border border-gray-200 hover:shadow-2xl hover:bg-gray-50 cursor-pointer flex flex-col items-center group w-[450px] h-[550px]"
                                 >
                                     {/* Imagen de la convocatoria */}
