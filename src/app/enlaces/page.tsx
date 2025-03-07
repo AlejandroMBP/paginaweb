@@ -111,7 +111,7 @@ export default function EnlacesPage() {
                                 >
                                     <motion.div
                                         initial={{ scale: 1 }}
-                                        whileHover={{ scale: 1.1, y: -30 }}
+                                        whileHover={{ scale: 1.1, y: -10 }}
                                         transition={{ duration: 0.3 }}
                                         className="relative w-[17rem] h-[17rem] mx-auto overflow-hidden rounded-full border-4 border-primary shadow-lg"
                                     >
@@ -134,17 +134,20 @@ export default function EnlacesPage() {
                                                 e.currentTarget.src = `https://serviciopagina.upea.bo/InstitucionUpea/LinksExternos/${enlace.ei_imagen}`;
                                             }}
                                         />
-                                        <motion.div className="absolute inset-0 opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
-                                        <div className="absolute inset-0 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-b from-transparent to-secondary">
+                                        <motion.div className="absolute inset-0 opacity-0 group-hover:opacity-50 transition-opacity duration-300 bg-gradient-to-t from-[#2793F2]/90 to-transparent" />
+                                        <div className="absolute inset-0 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:translate-y-0 translate-y-10">
                                             <motion.div
                                                 initial={{ x: -50 }}
                                                 animate={{ x: 0 }}
                                                 transition={{ duration: 0.5 }}
                                                 className="flex items-center"
                                             >
-                                                <span className="text-white text-lg font-bold">
-                                                    Ir al enlace
-                                                </span>
+                                                {/* Fondo oscuro semitransparente detrás del texto */}
+                                                <div className="bg-black/60 p-2 rounded-lg">
+                                                    <h2 className="text-white text-lg font-bold drop-shadow-lg">
+                                                        Ir al enlace
+                                                    </h2>
+                                                </div>
                                                 <motion.div
                                                     className="ml-2 w-4 h-4 bg-white rounded-full"
                                                     animate={{

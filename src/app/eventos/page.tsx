@@ -36,7 +36,6 @@ export default function InicioPage() {
                 const result = await response.json();
                 setEventos(result);
             } catch (error) {
-                console.error('Error al cargar eventos:', error); // Agrega un manejo de errores más detallado
                 setEventos([]);
             } finally {
                 setLoading(false);
@@ -132,7 +131,7 @@ export default function InicioPage() {
                                     />
 
                                     {/* Efecto de hover */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#2793F2] to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
 
                                     {/* Contenido flotante en hover */}
                                     <div className="absolute inset-0 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-95 transition-all duration-500">

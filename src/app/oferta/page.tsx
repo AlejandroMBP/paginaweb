@@ -17,7 +17,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.vers
 
 const documentos = [
     { file: '/documentos/titulacionCAE.pdf', title: 'Datos de titulación CAE' },
-    { file: '/documentos/mallaCurricular.pdf', title: 'Malla Curricular' },
+    { file: '/documentos/MALLACURRICULAR2022.pdf', title: 'Malla Curricular' },
     { file: '/documentos/planDeEstudios.pdf', title: 'Plan de Estudios' },
 ];
 
@@ -111,7 +111,7 @@ export default function InicioPage() {
                 <section className="w-full max-w-5xl mx-auto flex flex-col md:flex-row gap-6">
                     {/* Card con documento seleccionado */}
                     <motion.div
-                        key={selectedDocument.title} // Clave única para animaciones en cambios
+                        key={selectedDocument.title}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
@@ -165,13 +165,12 @@ export default function InicioPage() {
                                             />
 
                                             {/* Efecto hover con degradado y botón */}
-                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-10 transition-all duration-500 bg-gradient-to-t from-secondary to-transparent rounded-lg">
+                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-10 transition-all duration-500 bg-gradient-to-t from-[#2793F2] to-transparent rounded-lg">
                                                 <FaEye className="w-10 h-10 text-primary" />
                                                 <h3 className="mt-2 text-xl font-semibold text-center">
                                                     ABRIR <br />{' '}
                                                     {selectedDocument.title}
                                                 </h3>
-                                                {/* Botón para ver el PDF completo */}
                                             </div>
                                         </motion.div>
                                     )}
@@ -265,8 +264,7 @@ export default function InicioPage() {
                                     />
 
                                     {/* Efecto de hover */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#2793F2] to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
                                     {/* Contenido en hover */}
                                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-10 transition-all duration-500">
                                         <FaEye className="w-10 h-10 text-primary" />

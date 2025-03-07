@@ -151,7 +151,11 @@ export default function PublicacionesSection({
                                         initial={{ opacity: 0, y: 20 }}
                                         whileHover={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.3 }}
-                                        className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center"
+                                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center"
+                                        style={{
+                                            backgroundImage:
+                                                'linear-gradient(to top, rgba(39, 147, 242, 0.8), transparent)',
+                                        }}
                                     >
                                         <Eye className="w-12 h-12 text-primary mb-2" />
 

@@ -69,7 +69,6 @@ export default function InicioPage() {
                 <PortadaSeccion
                     titulo={'CONVOCATORIAS'}
                     subtitulo="Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional."
-                    backgroundImage="/image/fondo.jpg"
                 />
 
                 {/* Separador decorativo */}
@@ -136,7 +135,13 @@ export default function InicioPage() {
                                     />
 
                                     {/* Efecto de Hover */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <div
+                                        className="absolute inset-0 bg-gradient-to-t to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                        style={{
+                                            backgroundImage:
+                                                'linear-gradient(to top, rgba(39, 147, 242, 0.5), transparent)',
+                                        }}
+                                    ></div>
 
                                     {/* Contenido en Hover */}
                                     <div className="absolute inset-0 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:scale-100 scale-95 transition-all duration-500">

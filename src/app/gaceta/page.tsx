@@ -120,7 +120,7 @@ export default function InicioPage() {
                                             />
                                         </Document>
 
-                                        <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#2793F2] to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
 
                                         <a
                                             href={`https://serviciopagina.upea.bo/Gaceta/${gaceta.gaceta_documento}`}

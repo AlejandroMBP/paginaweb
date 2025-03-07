@@ -38,7 +38,9 @@ export function Footer() {
 
                 // Filtrar duplicados y mostrar solo el último
                 if (data) {
-                    if (data.institucion_celular1 === data.institucion_celular2) {
+                    if (
+                        data.institucion_celular1 === data.institucion_celular2
+                    ) {
                         data.institucion_celular1 = data.institucion_celular2;
                     }
                     if (data.institucion_correo1 === data.institucion_correo2) {
@@ -75,13 +77,20 @@ export function Footer() {
                         Contacto
                     </h3>
                     {loading ? (
-                        <p className="text-gray-400 animate-pulse">Cargando...</p>
+                        <p className="text-gray-400 animate-pulse">
+                            Cargando...
+                        </p>
                     ) : contactInfo ? (
                         <ul className="space-y-3 text-gray-300">
                             {contactInfo?.institucion_celular1 && (
                                 <li
                                     className="flex items-center gap-3 hover:text-secondary transition-transform duration-300 cursor-pointer transform hover:scale-105"
-                                    onClick={() => copyToClipboard(contactInfo.institucion_celular1?.toString() || '')}
+                                    onClick={() =>
+                                        copyToClipboard(
+                                            contactInfo.institucion_celular1?.toString() ||
+                                                ''
+                                        )
+                                    }
                                 >
                                     <FaPhone className="text-blue-400 text-xl" />
                                     <a
@@ -97,14 +106,19 @@ export function Footer() {
                             {contactInfo?.institucion_correo1 && (
                                 <li className="flex items-center gap-3">
                                     <FaEnvelope className="text-red-400 text-xl" />
-                                    <a href={`mailto:${contactInfo.institucion_correo1}`} className="hover:text-secondary">
+                                    <a
+                                        href={`mailto:${contactInfo.institucion_correo1}`}
+                                        className="hover:text-secondary"
+                                    >
                                         {contactInfo.institucion_correo1}
                                     </a>
                                 </li>
                             )}
                         </ul>
                     ) : (
-                        <p className="text-gray-400">No hay información disponible.</p>
+                        <p className="text-gray-400">
+                            No hay información disponible.
+                        </p>
                     )}
                 </div>
 
@@ -113,27 +127,46 @@ export function Footer() {
                         Síguenos
                     </h3>
                     {loading ? (
-                        <p className="text-gray-400 animate-pulse">Cargando...</p>
+                        <p className="text-gray-400 animate-pulse">
+                            Cargando...
+                        </p>
                     ) : contactInfo ? (
                         <div className="flex space-x-6">
                             {contactInfo.institucion_facebook && (
-                                <a href={contactInfo.institucion_facebook} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-secondary transition-transform duration-300 text-3xl transform hover:scale-110">
+                                <a
+                                    href={contactInfo.institucion_facebook}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-blue-500 hover:text-secondary transition-transform duration-300 text-3xl transform hover:scale-110"
+                                >
                                     <FaFacebook />
                                 </a>
                             )}
                             {contactInfo.institucion_twitter && (
-                                <a href={contactInfo.institucion_twitter} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-secondary transition-transform duration-300 text-3xl transform hover:scale-110">
+                                <a
+                                    href={contactInfo.institucion_twitter}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-blue-400 hover:text-secondary transition-transform duration-300 text-3xl transform hover:scale-110"
+                                >
                                     <FaTwitter />
                                 </a>
                             )}
                             {contactInfo.institucion_youtube && (
-                                <a href={contactInfo.institucion_youtube} target="_blank" rel="noopener noreferrer" className="text-red-500 hover:text-secondary transition-transform duration-300 text-3xl transform hover:scale-110">
+                                <a
+                                    href={contactInfo.institucion_youtube}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-red-500 hover:text-secondary transition-transform duration-300 text-3xl transform hover:scale-110"
+                                >
                                     <FaYoutube />
                                 </a>
                             )}
                         </div>
                     ) : (
-                        <p className="text-gray-400">No hay información disponible.</p>
+                        <p className="text-gray-400">
+                            No hay información disponible.
+                        </p>
                     )}
                 </div>
                 <div className="flex justify-center md:justify-start items-center space-x-6">
@@ -158,15 +191,17 @@ export function Footer() {
                         />
                     </a>
                 </div>
-
             </div>
             <div className="text-center text-gray-400 mt-8 border-t border-gray-700 pt-4 animate-fade-in">
                 © {new Date().getFullYear()}
                 <a
                     href="https://www.linkedin.com/in/marcos-alejandro-berrios-pancata-33a811317/"
-                    className='hover:text-white transition-colors duration-300'
-                    target='_blank'
-                >Dev - MABP</a>. U-tic Todos los derechos reservados.
+                    className="hover:text-white transition-colors duration-300"
+                    target="_blank"
+                >
+                    Dev - MABP
+                </a>
+                . U-tic Todos los derechos reservados.
             </div>
         </footer>
     );

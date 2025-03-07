@@ -102,7 +102,13 @@ export default function AboutPage() {
                                         objectPosition="center"
                                     />
                                 </div>
-                                <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <div
+                                    className="absolute inset-0 bg-gradient-to-t to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    style={{
+                                        backgroundImage:
+                                            'linear-gradient(to top, rgba(39, 147, 242, 0.5), transparent)',
+                                    }}
+                                ></div>
                                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-10 transition-all duration-500">
                                     {card.icon}
                                     <h2 className="text-xl font-semibold mt-2">
