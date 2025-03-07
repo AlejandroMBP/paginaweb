@@ -35,7 +35,6 @@ export default function InicioPage() {
                 if (!response.ok)
                     throw new Error(`Error HTTP: ${response.status}`);
                 const result = await response.json();
-                console.log('resultado: ', result);
                 setPubliPagina(result);
             } catch (error) {
                 console.error('Error al obtener publicaciones:', error);

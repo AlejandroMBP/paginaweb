@@ -45,7 +45,6 @@ export function useInicioData() {
                 if (!response.ok)
                     throw new Error(`Error HTTP: ${response.status}`);
                 const result = await response.json();
-                console.log('Respuesta de la API1:', result);
                 setData(result);
                 setInstitucionNombre(
                     result?.Descripcion?.institucion_nombre ||
@@ -77,7 +76,6 @@ export function useInicioData() {
                 if (!response.ok)
                     throw new Error(`Error HTTP: ${response.status}`);
                 const result = await response.json();
-                console.log('Respuesta de la API:', result);
                 setPublicaciones(result);
             } catch (error) {
                 console.error('Error al obtener publicaciones', error);

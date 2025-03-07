@@ -61,12 +61,8 @@ export function Footer() {
     const copyToClipboard = (text: string) => {
         navigator.clipboard
             .writeText(text)
-            .then(() => {
-                console.log('Texto copiado al portapapeles');
-            })
-            .catch((err) => {
-                console.error('Error al copiar al portapapeles', err);
-            });
+            .then(() => {})
+            .catch((err) => {});
     };
 
     return (
