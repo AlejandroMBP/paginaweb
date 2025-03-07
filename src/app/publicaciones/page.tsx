@@ -35,6 +35,7 @@ export default function InicioPage() {
                 if (!response.ok)
                     throw new Error(`Error HTTP: ${response.status}`);
                 const result = await response.json();
+                console.log('resultado: ', result);
                 setPubliPagina(result);
             } catch (error) {
                 console.error('Error al obtener publicaciones:', error);
@@ -96,7 +97,7 @@ export default function InicioPage() {
 
                 <section className="relative max-w-full">
                     <div className="w-full flex justify-center">
-                        <nav className="sticky top-20 z-40 inline-flex justify-center space-x-4 flex-wrap mb-6 bg-white px-4 md:px-6 lg:px-8 py-4 rounded-lg shadow-md transition-all duration-300">
+                        <nav className="sticky inline-flex justify-center space-x-4 flex-wrap mb-6 bg-white px-4 md:px-6 lg:px-8 py-4 rounded-lg shadow-md transition-all duration-300">
                             {['todas', ...categoriasDefinidas, 'otros'].map(
                                 (category) => (
                                     <motion.button
