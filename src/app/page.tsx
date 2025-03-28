@@ -23,7 +23,6 @@ export default function InicioPage() {
     return (
         <Preloader>
             <main className="flex flex-col items-center min-h-screen gap-16 font-[family-name:var(--font-geist-sans)] bg-gray-100">
-                {/* Sección 1: Título */}
                 <PortadaSeccion
                     titulo={
                         loading
@@ -32,19 +31,12 @@ export default function InicioPage() {
                     }
                     subtitulo="Formación académica con enfoque en liderazgo, emprendimiento y gestión organizacional."
                 />
-                {/* Separador decorativo */}
                 <div
                     id="next-section"
                     className="w-full h-1 bg-primary rounded-full mb-6"
                 ></div>
-
-                {/* Sección 2: Últimas Publicaciones */}
                 <PublicacionesSection publicaciones={publicaciones} />
-
-                {/* Separador decorativo */}
                 <Separador />
-
-                {/* Sección 3: Autoridades */}
                 {data?.Descripcion?.autoridad ? (
                     <AutoridadesSection
                         autoridades={data.Descripcion.autoridad}
@@ -54,11 +46,7 @@ export default function InicioPage() {
                         Cargando autoridad...
                     </p>
                 )}
-
-                {/* Separador decorativo */}
                 <Separador color="bg-primary" height="h-1" />
-
-                {/* Sección 4: Ubicación */}
                 <UbicacionSection
                     mapsUbicacion={mapsUbicacion}
                     direccion={direccion}

@@ -35,10 +35,8 @@ export default function InicioPage() {
                 if (!response.ok)
                     throw new Error(`Error HTTP: ${response.status}`);
                 const result = await response.json();
-                console.log('resultado: ', result);
                 setPubliPagina(result);
             } catch (error) {
-                console.error('Error al obtener publicaciones:', error);
                 setPubliPagina([]);
             } finally {
                 setLoading(false);
@@ -59,17 +57,17 @@ export default function InicioPage() {
         selectedCategory === 'todas'
             ? publiPagina
             : selectedCategory === 'otros'
-            ? publiPagina.filter(
-                  (publi) =>
-                      !categoriasDefinidas.includes(
-                          publi.publicaciones_tipo.toLowerCase()
-                      )
-              )
-            : publiPagina.filter(
-                  (publi) =>
-                      publi.publicaciones_tipo.toLowerCase() ===
-                      selectedCategory
-              );
+                ? publiPagina.filter(
+                    (publi) =>
+                        !categoriasDefinidas.includes(
+                            publi.publicaciones_tipo.toLowerCase()
+                        )
+                )
+                : publiPagina.filter(
+                    (publi) =>
+                        publi.publicaciones_tipo.toLowerCase() ===
+                        selectedCategory
+                );
 
     // Función para abrir el modal
     const openModal = (publication: PublicacionesApi) => {
@@ -107,12 +105,11 @@ export default function InicioPage() {
                                                 category.toLowerCase()
                                             )
                                         }
-                                        className={`text-lg font-semibold px-6 py-3 rounded-full transition-all duration-300 ease-in-out ${
-                                            selectedCategory ===
-                                            category.toLowerCase()
+                                        className={`text-lg font-semibold px-6 py-3 rounded-full transition-all duration-300 ease-in-out ${selectedCategory ===
+                                                category.toLowerCase()
                                                 ? 'bg-primary text-white shadow-lg scale-105'
                                                 : 'bg-white text-secondary hover:bg-primary hover:text-white hover:shadow-2xl hover:scale-105'
-                                        }`}
+                                            }`}
                                         whileHover={{ scale: 1.1 }}
                                         whileTap={{ scale: 0.95 }}
                                     >
