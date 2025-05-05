@@ -23,7 +23,6 @@ export default function InicioPage() {
     return (
         <Preloader>
             <main className="flex flex-col items-center min-h-screen gap-16 font-[family-name:var(--font-geist-sans)] bg-gray-100">
-                {/* Sección 1: Título */}
                 <PortadaSeccion
                     titulo={
                         loading

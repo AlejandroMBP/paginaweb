@@ -51,6 +51,7 @@ export function Navbar() {
         { href: '/eventos', label: 'Eventos' },
         { href: '/gaceta', label: 'Gaceta' },
         { href: '/convocatoria', label: 'Convocatoria' },
+        { href: '/videos', label: 'Videos' },
         { href: '/enlaces', label: 'Enlaces' },
     ];
 

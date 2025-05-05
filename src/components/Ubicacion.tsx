@@ -6,7 +6,11 @@ interface UbicacionSectionProps {
     loading: boolean;
 }
 
-export default function UbicacionSection({ mapsUbicacion, direccion, loading }: UbicacionSectionProps) {
+export default function UbicacionSection({
+    mapsUbicacion,
+    direccion,
+    loading,
+}: UbicacionSectionProps) {
     return (
         <section className="w-full">
             <motion.h2
@@ -18,14 +22,22 @@ export default function UbicacionSection({ mapsUbicacion, direccion, loading }: 
                 <motion.div
                     initial={{ x: -20 }}
                     animate={{ x: 20 }}
-                    transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }}
+                    transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        repeatType: 'reverse',
+                    }}
                     className="w-12 h-1 bg-secondary rounded-full mr-3"
                 ></motion.div>
                 <span className="relative z-10">UBICACIÓN</span>
                 <motion.div
                     initial={{ x: 20 }}
                     animate={{ x: -20 }}
-                    transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }}
+                    transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        repeatType: 'reverse',
+                    }}
                     className="w-12 h-1 bg-secondary rounded-full ml-3"
                 ></motion.div>
                 <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 via-transparent to-secondary/20 blur-lg opacity-50"></div>

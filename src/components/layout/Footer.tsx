@@ -67,7 +67,7 @@ export function Footer() {
 
     return (
         <footer
-            className="bg-cover bg-center text-white py-14 px-6 mt-12 shadow-2xl border-t border-gray-600 transition-all duration-300 hover:shadow-3xl hover:scale-105 transform"
+            className="bg-cover bg-center text-white py-14 px-6 mt-12 shadow-2xl border-t border-gray-600 transition-all duration-300 hover:shadow-3xl"
             style={{
                 backgroundImage: 'url("/image/assets/fondo.jpg")',
                 backgroundBlendMode: 'overlay',
@@ -200,13 +200,20 @@ export function Footer() {
             <div className="text-center text-gray-400 mt-8 border-t border-gray-600 pt-6 animate-fade-in">
                 © {new Date().getFullYear()}
                 <a
+                    href="https://www.linkedin.com/in/"
+                    className="hover:text-white transition-colors duration-300"
+                    target="_blank"
+                >
+                    {' '}
+                    Dev(v1) - CVM{' '}
+                </a>
+                <a
                     href="https://www.linkedin.com/in/marcos-alejandro-berrios-pancata-33a811317/"
                     className="hover:text-white transition-colors duration-300"
                     target="_blank"
                 >
-                    Dev - MABP
+                    Dev(v2) - MABP
                 </a>
-                . U-tic Todos los derechos reservados.
             </div>
         </footer>
     );
