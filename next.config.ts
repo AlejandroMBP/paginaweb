@@ -17,14 +17,6 @@ const nextConfig: NextConfig = {
         };
         return config;
     },
-
-    devIndicators: {
-        buildActivity: false, // Oculta el indicador de construcción
-    },
-    // Opcional: Deshabilita el overlay de errores en desarrollo también
-    onDev: {
-        overlay: false,
-    },
 };
 
 export default nextConfig;

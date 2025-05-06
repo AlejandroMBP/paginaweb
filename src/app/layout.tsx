@@ -6,6 +6,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Navbar } from '@/components/layout/Navbar';
 import { Acreditacion } from '@/components/Acreditacion';
 import ScrollToTopButton from '@/components/layout/ScrollToTop';
+import CursorFollower from '@/components/CursorFollower';
 
 const montserrat = Montserrat({
     subsets: ['latin'],
@@ -33,6 +34,7 @@ export const viewport: Viewport = {
     // ]
 };
 export const metadata: Metadata = {
+    metadataBase: new URL('https://admemp.upea.edu.bo'),
     title: 'Administración de Empresas',
     description:
         'La carrera de Administración de Empresas forma parte de la Universidad Pública de El Alto.',
@@ -45,15 +47,34 @@ export const metadata: Metadata = {
     ],
     authors: [
         {
-            name: 'v1-Cristhian Villca Mamani v2-Marcos Alejandro Berrios Pancata',
+            name: 'Cristhian Villca Mamani',
+            url: 'https://bo.linkedin.com/in/cristhian-vm.upea.edu.bo',
+        },
+        {
+            name: 'Marcos Alejandro Berrios Pancata',
+            url: 'https://bo.linkedin.com/in/marcos-alejandro-berrios-pancata-33a811317',
         },
     ],
+    other: {
+        devNotes: [
+            'version 1 - Cristhian Villca Mamani - Abril 2023',
+            'version 2 - Marcos Alejandro Berrios Pancata - Mayo 2025',
+        ],
+    },
     openGraph: {
         title: 'Administración de Empresas - UPEA',
         description:
             'Conoce la carrera de Administración de Empresas de la UPEA. Formación profesional de calidad con enfoque en el desarrollo empresarial.',
         url: 'https://admemp.upea.edu.bo/',
         siteName: 'Administración de Empresas - UPEA',
+        images: [
+            {
+                url: '/image/logo.jpeg',
+                width: 800,
+                height: 600,
+                alt: 'Logo Administración de Empresas',
+            },
+        ],
         locale: 'es_BO',
         type: 'website',
     },
@@ -79,6 +100,7 @@ export default function RootLayout({
                 <Navbar />
                 <Acreditacion />
                 {children}
+                <CursorFollower />
                 <ScrollToTopButton />
                 <Footer />
             </body>
